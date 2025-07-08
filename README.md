@@ -5,16 +5,19 @@ A comprehensive collection of Jest utilities for advanced test reporting, flaky 
 ## Features
 
 🔍 **Custom Jest Reporter**
+
 - Detailed test lifecycle logging
 - Multi-project environment support
 - Comprehensive test run analysis
 
 📊 **Flaky Test Detection**
+
 - Persistent test history tracking
 - Statistical analysis of test stability
 - Actionable recommendations for fixing flaky tests
 
 💧 **Memory Leak Detection**
+
 - Monitors memory usage, global variables, timers, and event listeners
 - Configurable thresholds and analysis
 - Heap snapshot generation for debugging
@@ -64,21 +67,25 @@ The project supports multiple configuration options:
 ## Utilities
 
 ### Custom Reporter (`reporters/custom-reporter.js`)
+
 - Comprehensive test lifecycle logging
 - Flaky test detection and reporting
 - Memory leak detection integration
 
 ### Leak Detector (`utils/leak-detector.js`)
+
 - Standalone memory leak detection utility
 - Configurable thresholds and analysis
 - Multiple integration options
 
 ### Setup Files
+
 - `jest-setup-leak-detection.js` - Automatic leak detection setup
 
 ## Development
 
 This project uses:
+
 - **Package Manager**: pnpm (locked to version 10.12.4)
 - **Test Environment**: Jest with multi-project configuration
 - **Node.js**: Compatible with modern Node.js versions

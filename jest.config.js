@@ -1,11 +1,11 @@
 module.exports = {
   // Custom reporter configuration
   reporters: [
-    "default", // Keep the default reporter
+    'default', // Keep the default reporter
     [
-      "<rootDir>/reporters/custom-reporter.js",
+      '<rootDir>/reporters/custom-reporter.js',
       {
-        logFile: "test-report.log",
+        logFile: 'test-report.log',
         enableLeakDetection: true,
         leakDetection: {
           memoryThresholdMB: 25,
@@ -17,22 +17,22 @@ module.exports = {
   ],
   projects: [
     {
-      displayName: "client",
+      displayName: 'client',
       testMatch: [
-        "<rootDir>/mixed/**/*.client.test.js",
-        "<rootDir>/mixed/**/*.test.js",
-        "!**/*.server.test.js",
+        '<rootDir>/mixed/**/*.client.test.js',
+        '<rootDir>/mixed/**/*.test.js',
+        '!**/*.server.test.js',
       ],
-      testEnvironment: "jsdom",
+      testEnvironment: 'jsdom',
     },
     {
-      displayName: "server",
+      displayName: 'server',
       testMatch: [
-        "<rootDir>/mixed/**/*.server.test.js",
-        "<rootDir>/mixed/**/*.test.js",
-        "!**/*.client.test.js",
+        '<rootDir>/mixed/**/*.server.test.js',
+        '<rootDir>/mixed/**/*.test.js',
+        '!**/*.client.test.js',
       ],
-      testEnvironment: "node",
+      testEnvironment: 'node',
     },
   ],
-};
+}

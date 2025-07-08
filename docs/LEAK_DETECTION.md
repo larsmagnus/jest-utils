@@ -5,6 +5,7 @@ This project includes comprehensive memory leak detection utilities to help iden
 ## Features
 
 ### 🔍 **Automatic Detection**
+
 - **Memory Usage Monitoring**: Tracks heap growth and memory consumption per test
 - **Global Variable Tracking**: Identifies new global variables created during tests
 - **Timer Leak Detection**: Finds uncleaned setTimeout/setInterval calls
@@ -12,6 +13,7 @@ This project includes comprehensive memory leak detection utilities to help iden
 - **Promise Monitoring**: Identifies pending/unresolved promises
 
 ### 📊 **Comprehensive Reporting**
+
 - Real-time leak warnings during test execution
 - End-of-run summary with leak statistics
 - Detailed analysis with actionable recommendations
@@ -19,6 +21,7 @@ This project includes comprehensive memory leak detection utilities to help iden
 - Configurable thresholds and filtering
 
 ### ⚙️ **Flexible Configuration**
+
 - Environment-specific settings (dev, CI, production)
 - Customizable memory thresholds and detection rules
 - Test filtering with include/exclude patterns
@@ -34,7 +37,7 @@ Add to your `jest.config.js`:
 module.exports = {
   setupFilesAfterEnv: ['<rootDir>/jest-setup-leak-detection.js'],
   // ... other config
-};
+}
 ```
 
 ### Option 2: Reporter Integration
@@ -52,35 +55,38 @@ module.exports = {
         leakDetection: {
           memoryThresholdMB: 25,
           generateHeapSnapshots: false,
-          verbose: true
-        }
-      }
-    ]
-  ]
-};
+          verbose: true,
+        },
+      },
+    ],
+  ],
+}
 ```
 
 ### Option 3: Manual Integration
 
 ```javascript
-const LeakDetector = require('./utils/leak-detector');
+const LeakDetector = require('./utils/leak-detector')
 
 describe('My Test Suite', () => {
-  const leakDetector = new LeakDetector();
-  let testId;
+  const leakDetector = new LeakDetector()
+  let testId
 
   beforeEach(() => {
-    testId = leakDetector.startTest(expect.getState().currentTestName, __filename);
-  });
+    testId = leakDetector.startTest(
+      expect.getState().currentTestName,
+      __filename
+    )
+  })
 
   afterEach(() => {
-    leakDetector.finishTest(testId, 'passed');
-  });
+    leakDetector.finishTest(testId, 'passed')
+  })
 
   test('my test', () => {
     // Your test code here
-  });
-});
+  })
+})
 ```
 
 ## Configuration
@@ -111,16 +117,16 @@ module.exports = {
     memoryThresholdMB: 50,
     heapGrowthThreshold: 0.25,
     verbose: true,
-    generateHeapSnapshots: false
+    generateHeapSnapshots: false,
   },
   ci: {
     memoryThresholdMB: 30,
     heapGrowthThreshold: 0.15,
     verbose: false,
-    generateHeapSnapshots: true
+    generateHeapSnapshots: true,
   },
   // ... more environments
-};
+}
 ```
 
 ## Common Leak Patterns & Solutions
@@ -128,130 +134,140 @@ module.exports = {
 ### 🌐 **Global Variable Leaks**
 
 **Problem:**
+
 ```javascript
 test('creates global leak', () => {
-  global.testData = new Array(100000).fill('data');
+  global.testData = new Array(100000).fill('data')
   // Missing cleanup!
-});
+})
 ```
 
 **Solution:**
+
 ```javascript
 test('properly cleaned', () => {
-  global.testData = new Array(100000).fill('data');
-  
+  global.testData = new Array(100000).fill('data')
+
   // Cleanup in test or afterEach
-  delete global.testData;
-});
+  delete global.testData
+})
 ```
 
 ### ⏰ **Timer Leaks**
 
 **Problem:**
+
 ```javascript
 test('timer leak', () => {
-  setTimeout(() => console.log('leak'), 10000);
-  setInterval(() => console.log('leak'), 1000);
+  setTimeout(() => console.log('leak'), 10000)
+  setInterval(() => console.log('leak'), 1000)
   // Missing clearTimeout/clearInterval!
-});
+})
 ```
 
 **Solution:**
+
 ```javascript
 test('timer cleanup', () => {
-  const timeout = setTimeout(() => console.log('clean'), 10000);
-  const interval = setInterval(() => console.log('clean'), 1000);
-  
+  const timeout = setTimeout(() => console.log('clean'), 10000)
+  const interval = setInterval(() => console.log('clean'), 1000)
+
   // Cleanup
-  clearTimeout(timeout);
-  clearInterval(interval);
-});
+  clearTimeout(timeout)
+  clearInterval(interval)
+})
 ```
 
 ### 🎧 **Event Listener Leaks**
 
 **Problem:**
+
 ```javascript
 test('listener leak', () => {
-  const handler = () => console.log('event');
-  element.addEventListener('click', handler);
+  const handler = () => console.log('event')
+  element.addEventListener('click', handler)
   // Missing removeEventListener!
-});
+})
 ```
 
 **Solution:**
+
 ```javascript
 test('listener cleanup', () => {
-  const handler = () => console.log('event');
-  element.addEventListener('click', handler);
-  
+  const handler = () => console.log('event')
+  element.addEventListener('click', handler)
+
   // Cleanup
-  element.removeEventListener('click', handler);
-});
+  element.removeEventListener('click', handler)
+})
 ```
 
 ### 🏗️ **DOM Node Leaks**
 
 **Problem:**
+
 ```javascript
 test('DOM leak', () => {
-  const nodes = [];
+  const nodes = []
   for (let i = 0; i < 100; i++) {
-    nodes.push(document.createElement('div'));
+    nodes.push(document.createElement('div'))
   }
   // Nodes remain in memory!
-});
+})
 ```
 
 **Solution:**
+
 ```javascript
 test('DOM cleanup', () => {
-  const nodes = [];
+  const nodes = []
   for (let i = 0; i < 100; i++) {
-    const node = document.createElement('div');
-    nodes.push(node);
+    const node = document.createElement('div')
+    nodes.push(node)
   }
-  
+
   // Cleanup
-  nodes.forEach(node => {
+  nodes.forEach((node) => {
     if (node.parentNode) {
-      node.parentNode.removeChild(node);
+      node.parentNode.removeChild(node)
     }
-  });
-});
+  })
+})
 ```
 
 ### 🤝 **Promise Leaks**
 
 **Problem:**
+
 ```javascript
 test('promise leak', () => {
   new Promise((resolve) => {
     // Never resolves - memory leak!
-    setTimeout(resolve, 30000);
-  });
-});
+    setTimeout(resolve, 30000)
+  })
+})
 ```
 
 **Solution:**
+
 ```javascript
 test('promise cleanup', async () => {
-  const controller = new AbortController();
-  
+  const controller = new AbortController()
+
   const promise = new Promise((resolve, reject) => {
-    const timeout = setTimeout(resolve, 1000);
+    const timeout = setTimeout(resolve, 1000)
     controller.signal.addEventListener('abort', () => {
-      clearTimeout(timeout);
-      reject(new Error('Aborted'));
-    });
-  });
-  
+      clearTimeout(timeout)
+      reject(new Error('Aborted'))
+    })
+  })
+
   try {
-    await promise;
+    await promise
   } finally {
-    controller.abort(); // Cleanup
+    controller.abort() // Cleanup
   }
-});
+})
 ```
 
 ## Best Practices
@@ -260,37 +276,37 @@ test('promise cleanup', async () => {
 
 ```javascript
 describe('Proper cleanup patterns', () => {
-  let resources = [];
-  
+  let resources = []
+
   afterEach(() => {
     // Clean up all resources after each test
-    resources.forEach(resource => {
-      if (resource.cleanup) resource.cleanup();
-      if (resource.destroy) resource.destroy();
-      if (resource.close) resource.close();
-    });
-    resources = [];
-    
+    resources.forEach((resource) => {
+      if (resource.cleanup) resource.cleanup()
+      if (resource.destroy) resource.destroy()
+      if (resource.close) resource.close()
+    })
+    resources = []
+
     // Clear global test data
-    delete global.testData;
-    delete global.testCache;
-  });
-  
+    delete global.testData
+    delete global.testCache
+  })
+
   test('with proper resource tracking', () => {
-    const timer = setTimeout(() => {}, 1000);
-    const listener = () => {};
-    
+    const timer = setTimeout(() => {}, 1000)
+    const listener = () => {}
+
     // Track resources for cleanup
     resources.push({
-      cleanup: () => clearTimeout(timer)
-    });
-    
-    element.addEventListener('click', listener);
+      cleanup: () => clearTimeout(timer),
+    })
+
+    element.addEventListener('click', listener)
     resources.push({
-      cleanup: () => element.removeEventListener('click', listener)
-    });
-  });
-});
+      cleanup: () => element.removeEventListener('click', listener),
+    })
+  })
+})
 ```
 
 ### 🎯 **Test Organization**
@@ -298,17 +314,17 @@ describe('Proper cleanup patterns', () => {
 ```javascript
 // Good: Group related tests and shared cleanup
 describe('UserService', () => {
-  let userService;
-  
+  let userService
+
   beforeEach(() => {
-    userService = new UserService();
-  });
-  
+    userService = new UserService()
+  })
+
   afterEach(() => {
-    userService.cleanup();
-    userService = null;
-  });
-});
+    userService.cleanup()
+    userService = null
+  })
+})
 ```
 
 ### 🔧 **Mock Cleanup**
@@ -316,11 +332,11 @@ describe('UserService', () => {
 ```javascript
 describe('With mocks', () => {
   afterEach(() => {
-    jest.clearAllMocks();
-    jest.clearAllTimers();
-    jest.restoreAllMocks();
-  });
-});
+    jest.clearAllMocks()
+    jest.clearAllTimers()
+    jest.restoreAllMocks()
+  })
+})
 ```
 
 ## Troubleshooting
@@ -362,45 +378,43 @@ npx jest --detectLeaks
 ### With React Testing Library
 
 ```javascript
-import { render, cleanup } from '@testing-library/react';
+import { render, cleanup } from '@testing-library/react'
 
 afterEach(() => {
-  cleanup(); // Clean up DOM
+  cleanup() // Clean up DOM
   // Additional cleanup if needed
-});
+})
 ```
 
 ### With Enzyme
 
 ```javascript
-import { mount } from 'enzyme';
+import { mount } from 'enzyme'
 
 describe('Component tests', () => {
-  let wrapper;
-  
+  let wrapper
+
   afterEach(() => {
     if (wrapper) {
-      wrapper.unmount();
-      wrapper = null;
+      wrapper.unmount()
+      wrapper = null
     }
-  });
-});
+  })
+})
 ```
 
 ### With Node.js APIs
 
 ```javascript
 describe('File operations', () => {
-  const openFiles = [];
-  
+  const openFiles = []
+
   afterEach(async () => {
     // Close all open files
-    await Promise.all(
-      openFiles.map(file => file.close())
-    );
-    openFiles.length = 0;
-  });
-});
+    await Promise.all(openFiles.map((file) => file.close()))
+    openFiles.length = 0
+  })
+})
 ```
 
 ## Monitoring & Alerts
@@ -414,7 +428,7 @@ describe('File operations', () => {
     LEAK_DETECTION_VERBOSE=true \
     GENERATE_HEAP_SNAPSHOTS=true \
     npm test
-    
+
 - name: Upload heap snapshots
   if: failure()
   uses: actions/upload-artifact@v3
@@ -428,9 +442,9 @@ describe('File operations', () => {
 The leak detector provides metrics that can be integrated with monitoring systems:
 
 ```javascript
-const summary = leakDetector.getSummary();
+const summary = leakDetector.getSummary()
 // Send to monitoring service
-console.log(JSON.stringify(summary));
+console.log(JSON.stringify(summary))
 ```
 
 ## References

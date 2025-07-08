@@ -17,8 +17,9 @@ This is a comprehensive Jest utilities project providing advanced test reporting
 ## Architecture
 
 ### Project Structure
+
 - `client/` - Client-side code with jsdom test environment
-- `server/` - Server-side code with Node.js test environment  
+- `server/` - Server-side code with Node.js test environment
 - `reporters/` - Custom Jest reporters
 - `utils/` - Reusable utilities (leak detection, etc.)
 - `docs/` - Documentation for utilities and features
@@ -26,6 +27,7 @@ This is a comprehensive Jest utilities project providing advanced test reporting
 - `leak-detection.config.js` - Configuration for memory leak detection
 
 ### Custom Reporter
+
 - Location: `reporters/custom-reporter.js`
 - Logs detailed information throughout the Jest test lifecycle
 - Outputs to both console and `test-report.log` file
@@ -44,6 +46,7 @@ This is a comprehensive Jest utilities project providing advanced test reporting
   - Configurable via `leak-detection.config.js` with environment-specific settings
 
 ### Test Environment
+
 - Multi-project Jest setup with separate client and server configurations
 - Client tests use jsdom environment for DOM-based testing
 - Server tests use Node.js environment
@@ -67,6 +70,7 @@ This is a comprehensive Jest utilities project providing advanced test reporting
 ## Utilities
 
 ### Memory Leak Detection
+
 - **Location**: `utils/leak-detector.js`
 - **Setup File**: `jest-setup-leak-detection.js` for automatic integration
 - **Config**: `leak-detection.config.js` with environment-specific settings
