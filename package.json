@@ -1,0 +1,37 @@
+{
+  "name": "jest-utils",
+  "version": "0.0.1",
+  "description": "Comprehensive Jest utilities for test reporting, flaky test detection, and memory leak detection",
+  "author": "Lars Magnus Klavenes <larsmagnus@gmail.com> (https://larsmagnus.co)",
+  "funding": "https://larsmagnus.co/donate",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/larsmagnus/jest-utils.git"
+  },
+  "bugs": {
+    "url": "https://github.com/larsmagnus/jest-utils/issues"
+  },
+  "homepage": "https://larsmagnus.co",
+  "main": "index.js",
+  "scripts": {
+    "test": "jest",
+    "test:client": "jest --selectProjects client",
+    "test:server": "jest --selectProjects server"
+  },
+  "keywords": [
+    "jest",
+    "testing",
+    "reporter",
+    "flaky-tests",
+    "memory-leaks",
+    "test-utilities",
+    "debugging",
+    "test-analysis"
+  ],
+  "packageManager": "pnpm@10.12.4",
+  "devDependencies": {
+    "jest": "^30.0.4",
+    "jest-environment-jsdom": "^30.0.4"
+  }
+}

@@ -1,0 +1,1342 @@
+{
+  "mixed/mixed-one.test.js > Math utilities add function": {
+    "runs": [
+      {
+        "timestamp": "2025-07-07T02:49:05.848Z",
+        "status": "passed",
+        "duration": 0,
+        "retries": 0
+      },
+      {
+        "timestamp": "2025-07-07T02:49:24.066Z",
+        "status": "passed",
+        "duration": 1,
+        "retries": 0
+      },
+      {
+        "timestamp": "2025-07-07T02:49:24.966Z",
+        "status": "passed",
+        "duration": 1,
+        "retries": 0
+      },
+      {
+        "timestamp": "2025-07-07T02:49:25.864Z",
+        "status": "passed",
+        "duration": 0,
+        "retries": 0
+      },
+      {
+        "timestamp": "2025-07-07T02:50:45.127Z",
+        "status": "passed",
+        "duration": 1,
+        "retries": 0
+      },
+      {
+        "timestamp": "2025-07-07T02:50:56.046Z",
+        "status": "passed",
+        "duration": 1,
+        "retries": 0
+      },
+      {
+        "timestamp": "2025-07-07T02:50:59.060Z",
+        "status": "passed",
+        "duration": 0,
+        "retries": 0
+      },
+      {
+        "timestamp": "2025-07-07T02:51:01.913Z",
+        "status": "passed",
+        "duration": 0,
+        "retries": 0
+      },
+      {
+        "timestamp": "2025-07-07T02:51:04.443Z",
+        "status": "passed",
+        "duration": 0,
+        "retries": 0
+      },
+      {
+        "timestamp": "2025-07-07T02:51:14.090Z",
+        "status": "passed",
+        "duration": 1,
+        "retries": 0
+      },
+      {
+        "timestamp": "2025-07-07T02:51:23.369Z",
+        "status": "passed",
+        "duration": 1,
+        "retries": 0
+      },
+      {
+        "timestamp": "2025-07-07T02:51:25.112Z",
+        "status": "passed",
+        "duration": 0,
+        "retries": 0
+      },
+      {
+        "timestamp": "2025-07-07T02:51:27.191Z",
+        "status": "passed",
+        "duration": 0,
+        "retries": 0
+      },
+      {
+        "timestamp": "2025-07-07T02:51:35.994Z",
+        "status": "passed",
+        "duration": 1,
+        "retries": 0
+      },
+      {
+        "timestamp": "2025-07-07T02:52:56.761Z",
+        "status": "passed",
+        "duration": 0,
+        "retries": 0
+      },
+      {
+        "timestamp": "2025-07-07T02:54:02.245Z",
+        "status": "passed",
+        "duration": 0,
+        "retries": 0
+      },
+      {
+        "timestamp": "2025-07-07T02:56:38.143Z",
+        "status": "passed",
+        "duration": 1,
+        "retries": 0
+      },
+      {
+        "timestamp": "2025-07-07T02:56:44.571Z",
+        "status": "passed",
+        "duration": 0,
+        "retries": 0
+      }
+    ]
+  },
+  "mixed/mixed-one.test.js > Math utilities multiply function": {
+    "runs": [
+      {
+        "timestamp": "2025-07-07T02:49:05.849Z",
+        "status": "passed",
+        "duration": 1,
+        "retries": 0
+      },
+      {
+        "timestamp": "2025-07-07T02:49:24.066Z",
+        "status": "passed",
+        "duration": 0,
+        "retries": 0
+      },
+      {
+        "timestamp": "2025-07-07T02:49:24.966Z",
+        "status": "passed",
+        "duration": 0,
+        "retries": 0
+      },
+      {
+        "timestamp": "2025-07-07T02:49:25.865Z",
+        "status": "passed",
+        "duration": 1,
+        "retries": 0
+      },
+      {
+        "timestamp": "2025-07-07T02:50:45.127Z",
+        "status": "passed",
+        "duration": 0,
+        "retries": 0
+      },
+      {
+        "timestamp": "2025-07-07T02:50:56.046Z",
+        "status": "passed",
+        "duration": 0,
+        "retries": 0
+      },
+      {
+        "timestamp": "2025-07-07T02:50:59.060Z",
+        "status": "passed",
+        "duration": 0,
+        "retries": 0
+      },
+      {
+        "timestamp": "2025-07-07T02:51:01.913Z",
+        "status": "passed",
+        "duration": 0,
+        "retries": 0
+      },
+      {
+        "timestamp": "2025-07-07T02:51:04.443Z",
+        "status": "passed",
+        "duration": 0,
+        "retries": 0
+      },
+      {
+        "timestamp": "2025-07-07T02:51:14.091Z",
+        "status": "passed",
+        "duration": 0,
+        "retries": 0
+      },
+      {
+        "timestamp": "2025-07-07T02:51:23.369Z",
+        "status": "passed",
+        "duration": 0,
+        "retries": 0
+      },
+      {
+        "timestamp": "2025-07-07T02:51:25.112Z",
+        "status": "passed",
+        "duration": 0,
+        "retries": 0
+      },
+      {
+        "timestamp": "2025-07-07T02:51:27.191Z",
+        "status": "passed",
+        "duration": 0,
+        "retries": 0
+      },
+      {
+        "timestamp": "2025-07-07T02:51:35.994Z",
+        "status": "passed",
+        "duration": 0,
+        "retries": 0
+      },
+      {
+        "timestamp": "2025-07-07T02:52:56.762Z",
+        "status": "passed",
+        "duration": 0,
+        "retries": 0
+      },
+      {
+        "timestamp": "2025-07-07T02:54:02.245Z",
+        "status": "passed",
+        "duration": 0,
+        "retries": 0
+      },
+      {
+        "timestamp": "2025-07-07T02:56:38.143Z",
+        "status": "passed",
+        "duration": 0,
+        "retries": 0
+      },
+      {
+        "timestamp": "2025-07-07T02:56:44.574Z",
+        "status": "passed",
+        "duration": 2,
+        "retries": 0
+      }
+    ]
+  },
+  "mixed/mixed-two.test.js > Math utilities add function": {
+    "runs": [
+      {
+        "timestamp": "2025-07-07T02:49:05.900Z",
+        "status": "passed",
+        "duration": 0,
+        "retries": 0
+      },
+      {
+        "timestamp": "2025-07-07T02:49:24.116Z",
+        "status": "passed",
+        "duration": 1,
+        "retries": 0
+      },
+      {
+        "timestamp": "2025-07-07T02:49:25.015Z",
+        "status": "passed",
+        "duration": 1,
+        "retries": 0
+      },
+      {
+        "timestamp": "2025-07-07T02:49:25.915Z",
+        "status": "passed",
+        "duration": 0,
+        "retries": 0
+      },
+      {
+        "timestamp": "2025-07-07T02:50:45.166Z",
+        "status": "passed",
+        "duration": 0,
+        "retries": 0
+      },
+      {
+        "timestamp": "2025-07-07T02:50:56.087Z",
+        "status": "passed",
+        "duration": 0,
+        "retries": 0
+      },
+      {
+        "timestamp": "2025-07-07T02:50:59.045Z",
+        "status": "passed",
+        "duration": 0,
+        "retries": 0
+      },
+      {
+        "timestamp": "2025-07-07T02:51:01.899Z",
+        "status": "passed",
+        "duration": 0,
+        "retries": 0
+      },
+      {
+        "timestamp": "2025-07-07T02:51:04.428Z",
+        "status": "passed",
+        "duration": 0,
+        "retries": 0
+      },
+      {
+        "timestamp": "2025-07-07T02:51:14.142Z",
+        "status": "passed",
+        "duration": 0,
+        "retries": 0
+      },
+      {
+        "timestamp": "2025-07-07T02:51:23.418Z",
+        "status": "passed",
+        "duration": 0,
+        "retries": 0
+      },
+      {
+        "timestamp": "2025-07-07T02:51:25.097Z",
+        "status": "passed",
+        "duration": 0,
+        "retries": 0
+      },
+      {
+        "timestamp": "2025-07-07T02:51:27.178Z",
+        "status": "passed",
+        "duration": 0,
+        "retries": 0
+      },
+      {
+        "timestamp": "2025-07-07T02:51:36.022Z",
+        "status": "passed",
+        "duration": 0,
+        "retries": 0
+      },
+      {
+        "timestamp": "2025-07-07T02:52:56.729Z",
+        "status": "passed",
+        "duration": 1,
+        "retries": 0
+      },
+      {
+        "timestamp": "2025-07-07T02:54:02.229Z",
+        "status": "passed",
+        "duration": 1,
+        "retries": 0
+      },
+      {
+        "timestamp": "2025-07-07T02:56:38.113Z",
+        "status": "passed",
+        "duration": 1,
+        "retries": 0
+      },
+      {
+        "timestamp": "2025-07-07T02:56:44.556Z",
+        "status": "passed",
+        "duration": 0,
+        "retries": 0
+      }
+    ]
+  },
+  "mixed/mixed-two.test.js > Math utilities multiply function": {
+    "runs": [
+      {
+        "timestamp": "2025-07-07T02:49:05.900Z",
+        "status": "passed",
+        "duration": 0,
+        "retries": 0
+      },
+      {
+        "timestamp": "2025-07-07T02:49:24.116Z",
+        "status": "passed",
+        "duration": 0,
+        "retries": 0
+      },
+      {
+        "timestamp": "2025-07-07T02:49:25.015Z",
+        "status": "passed",
+        "duration": 0,
+        "retries": 0
+      },
+      {
+        "timestamp": "2025-07-07T02:49:25.915Z",
+        "status": "passed",
+        "duration": 0,
+        "retries": 0
+      },
+      {
+        "timestamp": "2025-07-07T02:50:45.166Z",
+        "status": "passed",
+        "duration": 0,
+        "retries": 0
+      },
+      {
+        "timestamp": "2025-07-07T02:50:56.087Z",
+        "status": "passed",
+        "duration": 0,
+        "retries": 0
+      },
+      {
+        "timestamp": "2025-07-07T02:50:59.046Z",
+        "status": "passed",
+        "duration": 1,
+        "retries": 0
+      },
+      {
+        "timestamp": "2025-07-07T02:51:01.900Z",
+        "status": "passed",
+        "duration": 1,
+        "retries": 0
+      },
+      {
+        "timestamp": "2025-07-07T02:51:04.428Z",
+        "status": "passed",
+        "duration": 0,
+        "retries": 0
+      },
+      {
+        "timestamp": "2025-07-07T02:51:14.143Z",
+        "status": "passed",
+        "duration": 1,
+        "retries": 0
+      },
+      {
+        "timestamp": "2025-07-07T02:51:23.418Z",
+        "status": "passed",
+        "duration": 0,
+        "retries": 0
+      },
+      {
+        "timestamp": "2025-07-07T02:51:25.097Z",
+        "status": "passed",
+        "duration": 0,
+        "retries": 0
+      },
+      {
+        "timestamp": "2025-07-07T02:51:27.178Z",
+        "status": "passed",
+        "duration": 0,
+        "retries": 0
+      },
+      {
+        "timestamp": "2025-07-07T02:51:36.023Z",
+        "status": "passed",
+        "duration": 1,
+        "retries": 0
+      },
+      {
+        "timestamp": "2025-07-07T02:52:56.729Z",
+        "status": "passed",
+        "duration": 0,
+        "retries": 0
+      },
+      {
+        "timestamp": "2025-07-07T02:54:02.229Z",
+        "status": "passed",
+        "duration": 0,
+        "retries": 0
+      },
+      {
+        "timestamp": "2025-07-07T02:56:38.113Z",
+        "status": "passed",
+        "duration": 0,
+        "retries": 0
+      },
+      {
+        "timestamp": "2025-07-07T02:56:44.556Z",
+        "status": "passed",
+        "duration": 0,
+        "retries": 0
+      }
+    ]
+  },
+  "mixed/data.server.test.js > Data processing functions filterArray function": {
+    "runs": [
+      {
+        "timestamp": "2025-07-07T02:49:05.867Z",
+        "status": "passed",
+        "duration": 1,
+        "retries": 0
+      },
+      {
+        "timestamp": "2025-07-07T02:49:24.085Z",
+        "status": "passed",
+        "duration": 0,
+        "retries": 0
+      },
+      {
+        "timestamp": "2025-07-07T02:49:24.984Z",
+        "status": "passed",
+        "duration": 1,
+        "retries": 0
+      },
+      {
+        "timestamp": "2025-07-07T02:49:25.883Z",
+        "status": "passed",
+        "duration": 0,
+        "retries": 0
+      },
+      {
+        "timestamp": "2025-07-07T02:50:45.139Z",
+        "status": "passed",
+        "duration": 0,
+        "retries": 0
+      },
+      {
+        "timestamp": "2025-07-07T02:50:56.073Z",
+        "status": "passed",
+        "duration": 0,
+        "retries": 0
+      },
+      {
+        "timestamp": "2025-07-07T02:50:59.031Z",
+        "status": "passed",
+        "duration": 1,
+        "retries": 0
+      },
+      {
+        "timestamp": "2025-07-07T02:51:01.846Z",
+        "status": "passed",
+        "duration": 0,
+        "retries": 0
+      },
+      {
+        "timestamp": "2025-07-07T02:51:04.386Z",
+        "status": "passed",
+        "duration": 0,
+        "retries": 0
+      },
+      {
+        "timestamp": "2025-07-07T02:51:14.075Z",
+        "status": "passed",
+        "duration": 1,
+        "retries": 0
+      },
+      {
+        "timestamp": "2025-07-07T02:51:23.342Z",
+        "status": "passed",
+        "duration": 1,
+        "retries": 0
+      },
+      {
+        "timestamp": "2025-07-07T02:51:25.083Z",
+        "status": "passed",
+        "duration": 1,
+        "retries": 0
+      },
+      {
+        "timestamp": "2025-07-07T02:51:27.149Z",
+        "status": "passed",
+        "duration": 1,
+        "retries": 0
+      },
+      {
+        "timestamp": "2025-07-07T02:51:35.966Z",
+        "status": "passed",
+        "duration": 1,
+        "retries": 0
+      },
+      {
+        "timestamp": "2025-07-07T02:52:56.694Z",
+        "status": "passed",
+        "duration": 1,
+        "retries": 0
+      },
+      {
+        "timestamp": "2025-07-07T02:54:02.198Z",
+        "status": "passed",
+        "duration": 0,
+        "retries": 0
+      },
+      {
+        "timestamp": "2025-07-07T02:56:38.094Z",
+        "status": "passed",
+        "duration": 0,
+        "retries": 0
+      },
+      {
+        "timestamp": "2025-07-07T02:56:44.486Z",
+        "status": "passed",
+        "duration": 0,
+        "retries": 0
+      }
+    ]
+  },
+  "mixed/data.server.test.js > Data processing functions sortNumbers function": {
+    "runs": [
+      {
+        "timestamp": "2025-07-07T02:49:05.867Z",
+        "status": "passed",
+        "duration": 0,
+        "retries": 0
+      },
+      {
+        "timestamp": "2025-07-07T02:49:24.085Z",
+        "status": "passed",
+        "duration": 0,
+        "retries": 0
+      },
+      {
+        "timestamp": "2025-07-07T02:49:24.985Z",
+        "status": "passed",
+        "duration": 0,
+        "retries": 0
+      },
+      {
+        "timestamp": "2025-07-07T02:49:25.884Z",
+        "status": "passed",
+        "duration": 1,
+        "retries": 0
+      },
+      {
+        "timestamp": "2025-07-07T02:50:45.140Z",
+        "status": "passed",
+        "duration": 1,
+        "retries": 0
+      },
+      {
+        "timestamp": "2025-07-07T02:50:56.074Z",
+        "status": "passed",
+        "duration": 1,
+        "retries": 0
+      },
+      {
+        "timestamp": "2025-07-07T02:50:59.032Z",
+        "status": "passed",
+        "duration": 0,
+        "retries": 0
+      },
+      {
+        "timestamp": "2025-07-07T02:51:01.846Z",
+        "status": "passed",
+        "duration": 0,
+        "retries": 0
+      },
+      {
+        "timestamp": "2025-07-07T02:51:04.387Z",
+        "status": "passed",
+        "duration": 1,
+        "retries": 0
+      },
+      {
+        "timestamp": "2025-07-07T02:51:14.075Z",
+        "status": "passed",
+        "duration": 0,
+        "retries": 0
+      },
+      {
+        "timestamp": "2025-07-07T02:51:23.342Z",
+        "status": "passed",
+        "duration": 0,
+        "retries": 0
+      },
+      {
+        "timestamp": "2025-07-07T02:51:25.083Z",
+        "status": "passed",
+        "duration": 0,
+        "retries": 0
+      },
+      {
+        "timestamp": "2025-07-07T02:51:27.149Z",
+        "status": "passed",
+        "duration": 0,
+        "retries": 0
+      },
+      {
+        "timestamp": "2025-07-07T02:51:35.967Z",
+        "status": "passed",
+        "duration": 1,
+        "retries": 0
+      },
+      {
+        "timestamp": "2025-07-07T02:52:56.695Z",
+        "status": "passed",
+        "duration": 0,
+        "retries": 0
+      },
+      {
+        "timestamp": "2025-07-07T02:54:02.199Z",
+        "status": "passed",
+        "duration": 1,
+        "retries": 0
+      },
+      {
+        "timestamp": "2025-07-07T02:56:38.095Z",
+        "status": "passed",
+        "duration": 1,
+        "retries": 0
+      },
+      {
+        "timestamp": "2025-07-07T02:56:44.486Z",
+        "status": "passed",
+        "duration": 0,
+        "retries": 0
+      }
+    ]
+  },
+  "mixed/utils.server.test.js > Utility functions capitalize function": {
+    "runs": [
+      {
+        "timestamp": "2025-07-07T02:49:05.884Z",
+        "status": "passed",
+        "duration": 0,
+        "retries": 0
+      },
+      {
+        "timestamp": "2025-07-07T02:49:24.101Z",
+        "status": "passed",
+        "duration": 0,
+        "retries": 0
+      },
+      {
+        "timestamp": "2025-07-07T02:49:25.000Z",
+        "status": "passed",
+        "duration": 0,
+        "retries": 0
+      },
+      {
+        "timestamp": "2025-07-07T02:49:25.900Z",
+        "status": "passed",
+        "duration": 0,
+        "retries": 0
+      },
+      {
+        "timestamp": "2025-07-07T02:50:45.152Z",
+        "status": "passed",
+        "duration": 0,
+        "retries": 0
+      },
+      {
+        "timestamp": "2025-07-07T02:50:56.030Z",
+        "status": "passed",
+        "duration": 0,
+        "retries": 0
+      },
+      {
+        "timestamp": "2025-07-07T02:50:59.018Z",
+        "status": "passed",
+        "duration": 0,
+        "retries": 0
+      },
+      {
+        "timestamp": "2025-07-07T02:51:01.858Z",
+        "status": "passed",
+        "duration": 0,
+        "retries": 0
+      },
+      {
+        "timestamp": "2025-07-07T02:51:04.374Z",
+        "status": "passed",
+        "duration": 0,
+        "retries": 0
+      },
+      {
+        "timestamp": "2025-07-07T02:51:14.103Z",
+        "status": "passed",
+        "duration": 1,
+        "retries": 0
+      },
+      {
+        "timestamp": "2025-07-07T02:51:23.354Z",
+        "status": "passed",
+        "duration": 0,
+        "retries": 0
+      },
+      {
+        "timestamp": "2025-07-07T02:51:25.070Z",
+        "status": "passed",
+        "duration": 0,
+        "retries": 0
+      },
+      {
+        "timestamp": "2025-07-07T02:51:27.136Z",
+        "status": "passed",
+        "duration": 1,
+        "retries": 0
+      },
+      {
+        "timestamp": "2025-07-07T02:51:35.979Z",
+        "status": "passed",
+        "duration": 1,
+        "retries": 0
+      },
+      {
+        "timestamp": "2025-07-07T02:52:56.710Z",
+        "status": "passed",
+        "duration": 0,
+        "retries": 0
+      },
+      {
+        "timestamp": "2025-07-07T02:54:02.211Z",
+        "status": "passed",
+        "duration": 0,
+        "retries": 0
+      },
+      {
+        "timestamp": "2025-07-07T02:56:38.128Z",
+        "status": "passed",
+        "duration": 0,
+        "retries": 0
+      },
+      {
+        "timestamp": "2025-07-07T02:56:44.470Z",
+        "status": "passed",
+        "duration": 1,
+        "retries": 0
+      }
+    ]
+  },
+  "mixed/utils.server.test.js > Utility functions isEven function": {
+    "runs": [
+      {
+        "timestamp": "2025-07-07T02:49:05.885Z",
+        "status": "passed",
+        "duration": 0,
+        "retries": 0
+      },
+      {
+        "timestamp": "2025-07-07T02:49:24.101Z",
+        "status": "passed",
+        "duration": 0,
+        "retries": 0
+      },
+      {
+        "timestamp": "2025-07-07T02:49:25.001Z",
+        "status": "passed",
+        "duration": 1,
+        "retries": 0
+      },
+      {
+        "timestamp": "2025-07-07T02:49:25.900Z",
+        "status": "passed",
+        "duration": 0,
+        "retries": 0
+      },
+      {
+        "timestamp": "2025-07-07T02:50:45.153Z",
+        "status": "passed",
+        "duration": 1,
+        "retries": 0
+      },
+      {
+        "timestamp": "2025-07-07T02:50:56.031Z",
+        "status": "passed",
+        "duration": 1,
+        "retries": 0
+      },
+      {
+        "timestamp": "2025-07-07T02:50:59.019Z",
+        "status": "passed",
+        "duration": 0,
+        "retries": 0
+      },
+      {
+        "timestamp": "2025-07-07T02:51:01.859Z",
+        "status": "passed",
+        "duration": 0,
+        "retries": 0
+      },
+      {
+        "timestamp": "2025-07-07T02:51:04.374Z",
+        "status": "passed",
+        "duration": 0,
+        "retries": 0
+      },
+      {
+        "timestamp": "2025-07-07T02:51:14.103Z",
+        "status": "passed",
+        "duration": 0,
+        "retries": 0
+      },
+      {
+        "timestamp": "2025-07-07T02:51:23.354Z",
+        "status": "passed",
+        "duration": 0,
+        "retries": 0
+      },
+      {
+        "timestamp": "2025-07-07T02:51:25.071Z",
+        "status": "passed",
+        "duration": 1,
+        "retries": 0
+      },
+      {
+        "timestamp": "2025-07-07T02:51:27.136Z",
+        "status": "passed",
+        "duration": 0,
+        "retries": 0
+      },
+      {
+        "timestamp": "2025-07-07T02:51:35.979Z",
+        "status": "passed",
+        "duration": 0,
+        "retries": 0
+      },
+      {
+        "timestamp": "2025-07-07T02:52:56.710Z",
+        "status": "passed",
+        "duration": 0,
+        "retries": 0
+      },
+      {
+        "timestamp": "2025-07-07T02:54:02.212Z",
+        "status": "passed",
+        "duration": 0,
+        "retries": 0
+      },
+      {
+        "timestamp": "2025-07-07T02:56:38.128Z",
+        "status": "passed",
+        "duration": 0,
+        "retries": 0
+      },
+      {
+        "timestamp": "2025-07-07T02:56:44.471Z",
+        "status": "passed",
+        "duration": 1,
+        "retries": 0
+      }
+    ]
+  },
+  "mixed/math.client.test.js > Math utilities add function": {
+    "runs": [
+      {
+        "timestamp": "2025-07-07T02:49:05.915Z",
+        "status": "passed",
+        "duration": 0,
+        "retries": 0
+      },
+      {
+        "timestamp": "2025-07-07T02:49:24.130Z",
+        "status": "passed",
+        "duration": 0,
+        "retries": 0
+      },
+      {
+        "timestamp": "2025-07-07T02:49:25.030Z",
+        "status": "passed",
+        "duration": 0,
+        "retries": 0
+      },
+      {
+        "timestamp": "2025-07-07T02:49:25.929Z",
+        "status": "passed",
+        "duration": 0,
+        "retries": 0
+      },
+      {
+        "timestamp": "2025-07-07T02:50:45.181Z",
+        "status": "passed",
+        "duration": 0,
+        "retries": 0
+      },
+      {
+        "timestamp": "2025-07-07T02:50:56.060Z",
+        "status": "passed",
+        "duration": 0,
+        "retries": 0
+      },
+      {
+        "timestamp": "2025-07-07T02:50:59.073Z",
+        "status": "passed",
+        "duration": 0,
+        "retries": 0
+      },
+      {
+        "timestamp": "2025-07-07T02:51:01.884Z",
+        "status": "passed",
+        "duration": 0,
+        "retries": 0
+      },
+      {
+        "timestamp": "2025-07-07T02:51:04.402Z",
+        "status": "passed",
+        "duration": 1,
+        "retries": 0
+      },
+      {
+        "timestamp": "2025-07-07T02:51:14.129Z",
+        "status": "passed",
+        "duration": 1,
+        "retries": 0
+      },
+      {
+        "timestamp": "2025-07-07T02:51:23.382Z",
+        "status": "passed",
+        "duration": 0,
+        "retries": 0
+      },
+      {
+        "timestamp": "2025-07-07T02:51:25.125Z",
+        "status": "passed",
+        "duration": 1,
+        "retries": 0
+      },
+      {
+        "timestamp": "2025-07-07T02:51:27.163Z",
+        "status": "passed",
+        "duration": 0,
+        "retries": 0
+      },
+      {
+        "timestamp": "2025-07-07T02:51:36.009Z",
+        "status": "passed",
+        "duration": 1,
+        "retries": 0
+      },
+      {
+        "timestamp": "2025-07-07T02:52:56.745Z",
+        "status": "passed",
+        "duration": 1,
+        "retries": 0
+      },
+      {
+        "timestamp": "2025-07-07T02:54:02.261Z",
+        "status": "passed",
+        "duration": 0,
+        "retries": 0
+      },
+      {
+        "timestamp": "2025-07-07T02:56:38.159Z",
+        "status": "passed",
+        "duration": 0,
+        "retries": 0
+      },
+      {
+        "timestamp": "2025-07-07T02:56:44.535Z",
+        "status": "passed",
+        "duration": 2,
+        "retries": 0
+      },
+      {
+        "timestamp": "2025-07-08T22:38:42.009Z",
+        "status": "passed",
+        "duration": 1,
+        "retries": 0
+      },
+      {
+        "timestamp": "2025-07-08T22:43:47.651Z",
+        "status": "passed",
+        "duration": 1,
+        "retries": 0
+      }
+    ]
+  },
+  "mixed/math.client.test.js > Math utilities multiply function": {
+    "runs": [
+      {
+        "timestamp": "2025-07-07T02:49:05.915Z",
+        "status": "passed",
+        "duration": 0,
+        "retries": 0
+      },
+      {
+        "timestamp": "2025-07-07T02:49:24.131Z",
+        "status": "passed",
+        "duration": 1,
+        "retries": 0
+      },
+      {
+        "timestamp": "2025-07-07T02:49:25.030Z",
+        "status": "passed",
+        "duration": 0,
+        "retries": 0
+      },
+      {
+        "timestamp": "2025-07-07T02:49:25.929Z",
+        "status": "passed",
+        "duration": 0,
+        "retries": 0
+      },
+      {
+        "timestamp": "2025-07-07T02:50:45.181Z",
+        "status": "passed",
+        "duration": 0,
+        "retries": 0
+      },
+      {
+        "timestamp": "2025-07-07T02:50:56.060Z",
+        "status": "passed",
+        "duration": 0,
+        "retries": 0
+      },
+      {
+        "timestamp": "2025-07-07T02:50:59.074Z",
+        "status": "passed",
+        "duration": 1,
+        "retries": 0
+      },
+      {
+        "timestamp": "2025-07-07T02:51:01.884Z",
+        "status": "passed",
+        "duration": 0,
+        "retries": 0
+      },
+      {
+        "timestamp": "2025-07-07T02:51:04.402Z",
+        "status": "passed",
+        "duration": 0,
+        "retries": 0
+      },
+      {
+        "timestamp": "2025-07-07T02:51:14.129Z",
+        "status": "passed",
+        "duration": 0,
+        "retries": 0
+      },
+      {
+        "timestamp": "2025-07-07T02:51:23.383Z",
+        "status": "passed",
+        "duration": 1,
+        "retries": 0
+      },
+      {
+        "timestamp": "2025-07-07T02:51:25.125Z",
+        "status": "passed",
+        "duration": 0,
+        "retries": 0
+      },
+      {
+        "timestamp": "2025-07-07T02:51:27.163Z",
+        "status": "passed",
+        "duration": 0,
+        "retries": 0
+      },
+      {
+        "timestamp": "2025-07-07T02:51:36.010Z",
+        "status": "passed",
+        "duration": 0,
+        "retries": 0
+      },
+      {
+        "timestamp": "2025-07-07T02:52:56.745Z",
+        "status": "passed",
+        "duration": 0,
+        "retries": 0
+      },
+      {
+        "timestamp": "2025-07-07T02:54:02.261Z",
+        "status": "passed",
+        "duration": 0,
+        "retries": 0
+      },
+      {
+        "timestamp": "2025-07-07T02:56:38.160Z",
+        "status": "passed",
+        "duration": 0,
+        "retries": 0
+      },
+      {
+        "timestamp": "2025-07-07T02:56:44.537Z",
+        "status": "passed",
+        "duration": 1,
+        "retries": 0
+      },
+      {
+        "timestamp": "2025-07-08T22:38:42.009Z",
+        "status": "passed",
+        "duration": 0,
+        "retries": 0
+      },
+      {
+        "timestamp": "2025-07-08T22:43:47.651Z",
+        "status": "passed",
+        "duration": 0,
+        "retries": 0
+      }
+    ]
+  },
+  "mixed/flaky.test.js > Flaky test simulation sometimes failing test": {
+    "runs": [
+      {
+        "timestamp": "2025-07-07T02:50:45.067Z",
+        "status": "failed",
+        "duration": 0,
+        "retries": 0
+      },
+      {
+        "timestamp": "2025-07-07T02:50:55.983Z",
+        "status": "passed",
+        "duration": 1,
+        "retries": 0
+      },
+      {
+        "timestamp": "2025-07-07T02:50:59.007Z",
+        "status": "passed",
+        "duration": 0,
+        "retries": 0
+      },
+      {
+        "timestamp": "2025-07-07T02:51:01.870Z",
+        "status": "passed",
+        "duration": 0,
+        "retries": 0
+      },
+      {
+        "timestamp": "2025-07-07T02:51:04.413Z",
+        "status": "passed",
+        "duration": 0,
+        "retries": 0
+      },
+      {
+        "timestamp": "2025-07-07T02:51:14.114Z",
+        "status": "passed",
+        "duration": 1,
+        "retries": 0
+      },
+      {
+        "timestamp": "2025-07-07T02:51:23.396Z",
+        "status": "failed",
+        "duration": 0,
+        "retries": 0
+      },
+      {
+        "timestamp": "2025-07-07T02:51:25.025Z",
+        "status": "passed",
+        "duration": 0,
+        "retries": 0
+      },
+      {
+        "timestamp": "2025-07-07T02:51:27.124Z",
+        "status": "passed",
+        "duration": 0,
+        "retries": 0
+      },
+      {
+        "timestamp": "2025-07-07T02:51:35.946Z",
+        "status": "failed",
+        "duration": 1,
+        "retries": 0
+      },
+      {
+        "timestamp": "2025-07-07T02:52:56.638Z",
+        "status": "passed",
+        "duration": 0,
+        "retries": 0
+      },
+      {
+        "timestamp": "2025-07-07T02:54:02.184Z",
+        "status": "passed",
+        "duration": 0,
+        "retries": 0
+      },
+      {
+        "timestamp": "2025-07-07T02:56:38.080Z",
+        "status": "passed",
+        "duration": 0,
+        "retries": 0
+      },
+      {
+        "timestamp": "2025-07-07T02:56:44.500Z",
+        "status": "passed",
+        "duration": 1,
+        "retries": 0
+      }
+    ]
+  },
+  "mixed/flaky.test.js > Flaky test simulation stable test": {
+    "runs": [
+      {
+        "timestamp": "2025-07-07T02:50:45.067Z",
+        "status": "passed",
+        "duration": 0,
+        "retries": 0
+      },
+      {
+        "timestamp": "2025-07-07T02:50:55.983Z",
+        "status": "passed",
+        "duration": 0,
+        "retries": 0
+      },
+      {
+        "timestamp": "2025-07-07T02:50:59.007Z",
+        "status": "passed",
+        "duration": 0,
+        "retries": 0
+      },
+      {
+        "timestamp": "2025-07-07T02:51:01.870Z",
+        "status": "passed",
+        "duration": 0,
+        "retries": 0
+      },
+      {
+        "timestamp": "2025-07-07T02:51:04.414Z",
+        "status": "passed",
+        "duration": 1,
+        "retries": 0
+      },
+      {
+        "timestamp": "2025-07-07T02:51:14.114Z",
+        "status": "passed",
+        "duration": 0,
+        "retries": 0
+      },
+      {
+        "timestamp": "2025-07-07T02:51:23.397Z",
+        "status": "passed",
+        "duration": 0,
+        "retries": 0
+      },
+      {
+        "timestamp": "2025-07-07T02:51:25.025Z",
+        "status": "passed",
+        "duration": 0,
+        "retries": 0
+      },
+      {
+        "timestamp": "2025-07-07T02:51:27.125Z",
+        "status": "passed",
+        "duration": 0,
+        "retries": 0
+      },
+      {
+        "timestamp": "2025-07-07T02:51:35.946Z",
+        "status": "passed",
+        "duration": 0,
+        "retries": 0
+      },
+      {
+        "timestamp": "2025-07-07T02:52:56.639Z",
+        "status": "passed",
+        "duration": 1,
+        "retries": 0
+      },
+      {
+        "timestamp": "2025-07-07T02:54:02.183Z",
+        "status": "passed",
+        "duration": 0,
+        "retries": 0
+      },
+      {
+        "timestamp": "2025-07-07T02:56:38.080Z",
+        "status": "passed",
+        "duration": 0,
+        "retries": 0
+      },
+      {
+        "timestamp": "2025-07-07T02:56:44.500Z",
+        "status": "passed",
+        "duration": 0,
+        "retries": 0
+      }
+    ]
+  },
+  "mixed/simple-leak.test.js > Simple leak test global variable leak": {
+    "runs": [
+      {
+        "timestamp": "2025-07-08T22:39:05.615Z",
+        "status": "passed",
+        "duration": 2,
+        "retries": 0
+      }
+    ]
+  },
+  "mixed/simple-leak.test.js > Simple leak test clean test": {
+    "runs": [
+      {
+        "timestamp": "2025-07-08T22:39:05.616Z",
+        "status": "passed",
+        "duration": 0,
+        "retries": 0
+      }
+    ]
+  }
+}

@@ -1,0 +1,46 @@
+# See https://help.github.com/articles/ignoring-files/ for more about ignoring files.
+
+# Development
+node_modules
+build
+dist
+out
+
+# local env files
+.env
+.env*.local
+
+# except .env template files
+!.env.template
+
+# testing
+coverage
+
+# debug
+error.log
+access.log
+.pnpm-debug.log*
+
+# "bad" file names (mostly for obsidian)
+null*
+
+# misc
+.DS_Store
+
+# Thumbnails
+._*
+
+# Files that might appear on external disk
+.Spotlight-V100
+.Trashes
+
+# Obsidian
+**/*obsidian/workspace
+**/*obsidian/workspace*.json
+**/*obsidian/types.json
+**/*obsidian/starred.json
+**/*obsidian/quickshare.json
+
+## Don't commit plugin core files
+**/*obsidian/plugins/*/main.js
+**/*obsidian/plugins/*/styles.css
