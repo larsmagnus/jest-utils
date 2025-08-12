@@ -1,7 +1,7 @@
 {
   "name": "jest-utils",
   "version": "0.0.1",
-  "description": "Comprehensive Jest utilities for test reporting, flaky test detection, and memory leak detection",
+  "description": "Jest utilities for test reporting, flaky test detection, and memory leak detection",
   "author": "Lars Magnus Klavenes <larsmagnus@gmail.com> (https://larsmagnus.co)",
   "funding": "https://larsmagnus.co/donate",
   "license": "MIT",
