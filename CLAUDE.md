@@ -13,6 +13,10 @@ This is a comprehensive Jest utilities project providing advanced test reporting
 - **Run Tests**: `pnpm test` (runs all tests with custom reporter)
 - **Test Client Only**: `pnpm test:client`
 - **Test Server Only**: `pnpm test:server`
+- **Performance Analysis**: `pnpm test:performance` (runs tests with performance profiling)
+- **CPU Profiling**: `pnpm test:performance:cpu` (CPU profiling with flamegraphs)
+- **Memory Analysis**: `pnpm test:performance:memory` (memory usage analysis)
+- **Performance Watch**: `pnpm test:performance:watch` (continuous analysis during development)
 
 ## Architecture
 
@@ -20,11 +24,13 @@ This is a comprehensive Jest utilities project providing advanced test reporting
 
 - `client/` - Client-side code with jsdom test environment
 - `server/` - Server-side code with Node.js test environment
-- `reporters/` - Custom Jest reporters
+- `reporters/` - Custom Jest reporters (custom reporter, performance reporter)
 - `utils/` - Reusable utilities (leak detection, etc.)
 - `docs/` - Documentation for utilities and features
 - `jest.config.js` - Jest configuration with multi-project setup
 - `leak-detection.config.js` - Configuration for memory leak detection
+- `performance.config.js` - Configuration for performance analysis and profiling
+- `scripts/` - CLI tools for performance analysis and utilities
 
 ### Custom Reporter
 
@@ -34,7 +40,7 @@ This is a comprehensive Jest utilities project providing advanced test reporting
 - Tracks test execution phases, timing, and results
 - Provides comprehensive test run summaries
 - **Flaky Test Detection**: Automatically tracks test history and identifies potentially unstable tests
-  - Maintains persistent test execution history in `flaky-test-history.json`
+  - Maintains persistent test execution history in `reports/flaky-test-history.json`
   - Analyzes test patterns across multiple runs to detect inconsistent results
   - Reports flaky tests with failure rates, statistics, and remediation recommendations
   - Configurable thresholds and history limits via reporter options
@@ -61,11 +67,23 @@ This is a comprehensive Jest utilities project providing advanced test reporting
 - Package manager is locked to pnpm@10.12.4
 - Custom reporter provides detailed logging of test lifecycle events
 - Log file `test-report.log` is generated with each test run
-- Flaky test history is persisted in `flaky-test-history.json`
+- Flaky test history is persisted in `reports/flaky-test-history.json`
 - Memory leak detection logs to `leak-detection.log`
 - Verbose mode only activates with `--verbose` flag: `pnpm test -- --verbose`
 - Reporter automatically detects and reports flaky tests with actionable recommendations
 - Memory leak detection is integrated into the custom reporter and can be configured per environment
+
+### Performance Reporter
+
+- Location: `reporters/performance-reporter.js`
+- Provides comprehensive performance analysis with detailed timing metrics
+- **CPU Profiling**: V8-powered CPU profiling with flamegraph generation
+- **Memory Analysis**: Heap snapshots, memory usage tracking, and leak detection
+- **Interactive Reports**: HTML dashboards with charts, graphs, and performance recommendations
+- **Flamegraph Generation**: Visual CPU performance analysis with interactive D3.js visualizations
+- **Historical Tracking**: Performance trends and regression detection across test runs
+- **Configurable Thresholds**: Customizable performance budgets and warning levels
+- **CLI Tool**: Advanced command-line interface for performance analysis workflows
 
 ## Utilities
 
@@ -78,3 +96,13 @@ This is a comprehensive Jest utilities project providing advanced test reporting
 - **Features**: Tracks memory usage, global variables, timers, event listeners, and promises
 - **Integration**: Available as reporter integration, setup file, or manual usage
 - **Environment Variables**: Configurable via `LEAK_DETECTION_VERBOSE`, `GENERATE_HEAP_SNAPSHOTS`, etc.
+
+### Performance Analysis
+
+- **Location**: `reporters/performance-reporter.js` and `scripts/performance-analysis.js`
+- **Config**: `performance.config.js` with environment-specific profiles
+- **Documentation**: `docs/PERFORMANCE_ANALYSIS.md` for comprehensive usage guide
+- **Features**: CPU profiling, memory analysis, flamegraph generation, performance trends
+- **CLI Tool**: Full-featured command-line interface with watch mode, comparison, and reporting
+- **Integration**: Seamlessly works alongside existing custom reporter
+- **Output**: Interactive HTML reports, JSON data, CPU profiles, and flamegraph visualizations
