@@ -10,7 +10,7 @@
  * 3. Run tests normally - leak detection happens automatically
  */
 
-const LeakDetector = require('./utils/leak-detector')
+const LeakDetector = require('./src/leak-detector.ts')
 
 // Configure leak detection options
 const leakDetector = new LeakDetector({

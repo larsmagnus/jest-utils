@@ -39,7 +39,7 @@ class LeakDetector {
 
       // Reporting
       generateHeapSnapshots: options.generateHeapSnapshots || false,
-      heapSnapshotDir: options.heapSnapshotDir || './heap-snapshots',
+      heapSnapshotDir: options.heapSnapshotDir || './reports/heap-snapshots',
       logFile: options.logFile || 'leak-detection.log',
       verbose: options.verbose || false,
 

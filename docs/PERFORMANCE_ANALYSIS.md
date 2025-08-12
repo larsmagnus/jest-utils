@@ -54,19 +54,19 @@ pnpm test:performance:open
 
 ```bash
 # Full CLI options
-node scripts/performance-analysis.ts --help
+node src/performance-analysis.ts --help
 
 # CPU profiling with flamegraphs
-node scripts/performance-analysis.ts --cpu-only --flamegraph
+node src/performance-analysis.ts --cpu-only --flamegraph
 
 # Watch mode for development
-node scripts/performance-analysis.ts --watch
+node src/performance-analysis.ts --watch
 
 # Compare with previous runs
-node scripts/performance-analysis.ts --compare
+node src/performance-analysis.ts --compare
 
 # Specific test pattern
-node scripts/performance-analysis.ts --pattern="auth.*test.js"
+node src/performance-analysis.ts --pattern="auth.*test.js"
 ```
 
 ## Configuration
@@ -184,7 +184,7 @@ CPU flamegraphs show:
 
 ```bash
 # Set custom slow test threshold
-node scripts/performance-analysis.ts --threshold=500
+node src/performance-analysis.ts --threshold=500
 
 # Via environment variable
 PERFORMANCE_THRESHOLD=500 pnpm test:performance
@@ -201,7 +201,7 @@ When you only need CPU analysis:
 pnpm test:performance:cpu
 
 # Or with custom options
-node scripts/performance-analysis.ts --cpu-only --flamegraph --verbose
+node src/performance-analysis.ts --cpu-only --flamegraph --verbose
 ```
 
 ### Memory Analysis
@@ -213,7 +213,7 @@ Focus on memory usage patterns:
 pnpm test:performance:memory
 
 # High memory threshold for detailed analysis
-node scripts/performance-analysis.ts --memory-only --threshold=25
+node src/performance-analysis.ts --memory-only --threshold=25
 ```
 
 ### Watch Mode Development
@@ -225,7 +225,7 @@ Continuous analysis during development:
 pnpm test:performance:watch
 
 # Watch specific test pattern
-node scripts/performance-analysis.ts --watch --pattern="auth.*"
+node src/performance-analysis.ts --watch --pattern="auth.*"
 ```
 
 ### Comparison Analysis
@@ -237,7 +237,7 @@ Compare performance across runs:
 pnpm test:performance:compare
 
 # Generate regression report
-node scripts/performance-analysis.ts --compare --format=json
+node src/performance-analysis.ts --compare --format=json
 ```
 
 ## Interpreting Results
@@ -313,10 +313,10 @@ Set performance budgets in CI:
 
 ```bash
 # Fail if average test time exceeds budget
-node scripts/performance-analysis.ts --threshold=200 --profile=ci
+node src/performance-analysis.ts --threshold=200 --profile=ci
 
 # Check for regressions
-node scripts/performance-analysis.ts --compare --profile=ci
+node src/performance-analysis.ts --compare --profile=ci
 ```
 
 ## Troubleshooting
@@ -346,7 +346,7 @@ Enable verbose logging:
 
 ```bash
 # Verbose output
-node scripts/performance-analysis.ts --verbose
+node src/performance-analysis.ts --verbose
 
 # Environment variable
 PERFORMANCE_VERBOSE=true pnpm test:performance

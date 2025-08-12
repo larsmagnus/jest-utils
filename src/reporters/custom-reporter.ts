@@ -22,8 +22,8 @@
 
 const fs = require('fs')
 const path = require('path')
-const LeakDetector = require('../utils/leak-detector')
-const leakConfig = require('../leak-detection.config.ts')
+const LeakDetector = require('../leak-detector.ts')
+const leakConfig = require('../../leak-detection.config.ts')
 
 class CustomReporter {
   constructor(globalConfig, options) {

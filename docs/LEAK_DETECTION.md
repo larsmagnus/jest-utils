@@ -66,7 +66,7 @@ module.exports = {
 ### Option 3: Manual Integration
 
 ```javascript
-const LeakDetector = require('./utils/leak-detector')
+const LeakDetector = require('./src/leak-detector.ts')
 
 describe('My Test Suite', () => {
   const leakDetector = new LeakDetector()

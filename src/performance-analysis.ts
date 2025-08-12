@@ -7,26 +7,26 @@
  * on your Jest test suite with various options and reporting capabilities.
  *
  * Usage:
- *   node scripts/performance-analysis.js [options]
+ *   node src/performance-analysis.ts [options]
  *
  * Examples:
  *   # Basic performance run
  *   npm run test:performance
  *
  *   # CPU profiling only
- *   node scripts/performance-analysis.js --cpu-only
+ *   node src/performance-analysis.ts --cpu-only
  *
  *   # Memory analysis only
- *   node scripts/performance-analysis.js --memory-only
+ *   node src/performance-analysis.ts --memory-only
  *
  *   # Generate flamegraphs
- *   node scripts/performance-analysis.js --flamegraph
+ *   node src/performance-analysis.ts --flamegraph
  *
  *   # Compare with previous run
- *   node scripts/performance-analysis.js --compare
+ *   node src/performance-analysis.ts --compare
  *
  *   # Run specific test pattern
- *   node scripts/performance-analysis.js --pattern="*.performance.test.js"
+ *   node src/performance-analysis.ts --pattern="*.performance.test.js"
  */
 
 const { execSync, spawn } = require('child_process')
@@ -133,7 +133,7 @@ class PerformanceAnalysisCLI {
 🚀 Jest Performance Analysis Tool
 
 USAGE:
-  node scripts/performance-analysis.js [options]
+  node src/performance-analysis.ts [options]
 
 OPTIONS:
   -h, --help              Show this help message
@@ -154,22 +154,22 @@ OPTIONS:
 
 EXAMPLES:
   # Basic performance analysis
-  node scripts/performance-analysis.js
+  node src/performance-analysis.ts
   
   # CPU profiling with flamegraphs
-  node scripts/performance-analysis.js --cpu-only --flamegraph
+  node src/performance-analysis.ts --cpu-only --flamegraph
   
   # Memory analysis only
-  node scripts/performance-analysis.js --memory-only
+  node src/performance-analysis.ts --memory-only
   
   # Run specific tests with comparison
-  node scripts/performance-analysis.js --pattern="auth.*test.js" --compare
+  node src/performance-analysis.ts --pattern="auth.*test.js" --compare
   
   # CI-friendly analysis
-  node scripts/performance-analysis.js --profile=ci --format=json
+  node src/performance-analysis.ts --profile=ci --format=json
   
   # Development analysis with browser open
-  node scripts/performance-analysis.js --profile=development --open
+  node src/performance-analysis.ts --profile=development --open
 
 ENVIRONMENT VARIABLES:
   NODE_ENV                Set environment profile

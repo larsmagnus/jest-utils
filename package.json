@@ -18,12 +18,12 @@
     "test": "jest",
     "test:client": "jest --selectProjects client",
     "test:server": "jest --selectProjects server",
-    "test:performance": "node scripts/performance-analysis.ts",
-    "test:performance:cpu": "node scripts/performance-analysis.ts --cpu-only --flamegraph",
-    "test:performance:memory": "node scripts/performance-analysis.ts --memory-only",
-    "test:performance:watch": "node scripts/performance-analysis.ts --watch",
-    "test:performance:open": "node scripts/performance-analysis.ts --open",
-    "test:performance:compare": "node scripts/performance-analysis.ts --compare",
+    "test:performance": "node src/performance-analysis.ts",
+    "test:performance:cpu": "node src/performance-analysis.ts --cpu-only --flamegraph",
+    "test:performance:memory": "node src/performance-analysis.ts --memory-only",
+    "test:performance:watch": "node src/performance-analysis.ts --watch",
+    "test:performance:open": "node src/performance-analysis.ts --open",
+    "test:performance:compare": "node src/performance-analysis.ts --compare",
     "lint": "oxlint --fix && prettier . --write"
   },
   "keywords": [

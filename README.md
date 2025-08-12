@@ -72,7 +72,7 @@ The project supports multiple configuration options:
 - Flaky test detection and reporting
 - Memory leak detection integration
 
-### Leak Detector (`utils/leak-detector.ts`)
+### Leak Detector (`src/leak-detector.ts`)
 
 - Standalone memory leak detection utility
 - Configurable thresholds and analysis
