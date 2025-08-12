@@ -5,7 +5,7 @@
  * requiring manual setup in each test file.
  *
  * To use this setup:
- * 1. Add to jest.config.ts: setupFilesAfterEnv: ['<rootDir>/jest-setup-leak-detection.ts']
+ * 1. Add to jest.config.ts: setupFilesAfterEnv: ['<rootDir>/jest.setup.memory.ts']
  * 2. Configure options below as needed
  * 3. Run tests normally - leak detection happens automatically
  */

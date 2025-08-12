@@ -73,7 +73,7 @@ node src/performance-analysis.ts --pattern="auth.*test.js"
 
 ### Performance Configuration File
 
-The performance reporter is configured via `performance.config.ts`:
+The performance reporter is configured via `jest.config.performance.ts`:
 
 ```javascript
 module.exports = {
@@ -378,7 +378,7 @@ performance-reports/
 ### Performance Reporter Class
 
 ```javascript
-const PerformanceReporter = require('./reporters/performance-reporter')
+const PerformanceReporter = require('./src/reporters/performance-reporter')
 
 const reporter = new PerformanceReporter(globalConfig, {
   output: {

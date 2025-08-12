@@ -35,7 +35,7 @@ Add to your `jest.config.ts`:
 
 ```javascript
 module.exports = {
-  setupFilesAfterEnv: ['<rootDir>/jest-setup-leak-detection.ts'],
+  setupFilesAfterEnv: ['<rootDir>/jest.setup.memory.ts'],
   // ... other config
 }
 ```
@@ -49,7 +49,7 @@ module.exports = {
   reporters: [
     'default',
     [
-      '<rootDir>/reporters/custom-reporter.ts',
+      '<rootDir>/src/reporters/custom-reporter.ts',
       {
         enableLeakDetection: true,
         leakDetection: {
@@ -109,7 +109,7 @@ NODE_ENV=development|ci|production
 
 ### Configuration File
 
-Use `leak-detection.config.ts` for detailed configuration:
+Use `jest.config.memory.ts` for detailed configuration:
 
 ```javascript
 module.exports = {

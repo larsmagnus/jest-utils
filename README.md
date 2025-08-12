@@ -48,12 +48,12 @@ pnpm test:server
 
 ```sh
 jest-utils/
-├── reporters/           # Custom Jest reporters
-├── utils/              # Reusable utilities
+├── src/                # Reusable Jest utilities
+├── src/reporters/      # Custom Jest reporters
 ├── docs/               # Documentation
 ├── mixed/              # Test files for demo/testing
 ├── jest.config.ts      # Jest configuration
-└── leak-detection.config.ts  # Leak detection settings
+└── jest.config.memory.ts  # Leak detection settings
 ```
 
 ## Configuration
@@ -66,7 +66,7 @@ The project supports multiple configuration options:
 
 ## Utilities
 
-### Custom Reporter (`reporters/custom-reporter.ts`)
+### Custom Reporter (`src/reporters/custom-reporter.ts`)
 
 - Comprehensive test lifecycle logging
 - Flaky test detection and reporting
@@ -80,7 +80,7 @@ The project supports multiple configuration options:
 
 ### Setup Files
 
-- `jest-setup-leak-detection.ts` - Automatic leak detection setup
+- `jest.setup.memory.ts` - Automatic leak detection setup
 
 ## Development
 

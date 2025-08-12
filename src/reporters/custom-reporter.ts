@@ -23,7 +23,7 @@
 const fs = require('fs')
 const path = require('path')
 const LeakDetector = require('../leak-detector.ts')
-const leakConfig = require('../../leak-detection.config.ts')
+const leakConfig = require('../../jest.config.memory.ts')
 
 class CustomReporter {
   constructor(globalConfig, options) {

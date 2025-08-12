@@ -38,7 +38,7 @@ class PerformanceAnalysisCLI {
   constructor() {
     this.args = process.argv.slice(2)
     this.options = this.parseArguments()
-    this.performanceConfig = require('../performance.config.ts')
+    this.performanceConfig = require('../jest.config.performance.ts')
   }
 
   parseArguments() {
@@ -246,7 +246,7 @@ ENVIRONMENT VARIABLES:
     // Add reporters - use absolute path instead of <rootDir>
     jestArgs.push('--reporters=default')
     jestArgs.push(
-      `--reporters=${path.join(process.cwd(), 'reporters', 'performance-reporter.ts')}`
+      `--reporters=${path.join(process.cwd(), 'src', 'reporters', 'performance-reporter.ts')}`
     )
 
     // Add test pattern if specified
