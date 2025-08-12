@@ -2,29 +2,29 @@
 
 /**
  * Jest Performance Analysis CLI Tool
- * 
+ *
  * This script provides a command-line interface for running performance analysis
  * on your Jest test suite with various options and reporting capabilities.
- * 
+ *
  * Usage:
  *   node scripts/performance-analysis.js [options]
- *   
+ *
  * Examples:
  *   # Basic performance run
  *   npm run test:performance
- *   
+ *
  *   # CPU profiling only
  *   node scripts/performance-analysis.js --cpu-only
- *   
- *   # Memory analysis only  
+ *
+ *   # Memory analysis only
  *   node scripts/performance-analysis.js --memory-only
- *   
+ *
  *   # Generate flamegraphs
  *   node scripts/performance-analysis.js --flamegraph
- *   
+ *
  *   # Compare with previous run
  *   node scripts/performance-analysis.js --compare
- *   
+ *
  *   # Run specific test pattern
  *   node scripts/performance-analysis.js --pattern="*.performance.test.js"
  */
@@ -38,7 +38,7 @@ class PerformanceAnalysisCLI {
   constructor() {
     this.args = process.argv.slice(2)
     this.options = this.parseArguments()
-    this.performanceConfig = require('../performance.config.js')
+    this.performanceConfig = require('../performance.config.ts')
   }
 
   parseArguments() {
@@ -55,12 +55,12 @@ class PerformanceAnalysisCLI {
       profile: 'development',
       threshold: null,
       format: 'html',
-      open: false
+      open: false,
     }
 
     for (let i = 0; i < this.args.length; i++) {
       const arg = this.args[i]
-      
+
       switch (arg) {
         case '--help':
         case '-h':
@@ -186,24 +186,23 @@ ENVIRONMENT VARIABLES:
     }
 
     console.log('🚀 Starting Jest Performance Analysis...')
-    
+
     try {
       // Prepare environment
       this.setupEnvironment()
-      
+
       // Build Jest command
       const jestCommand = this.buildJestCommand()
-      
+
       console.log(`📊 Running: ${jestCommand}`)
       console.log(`🔧 Profile: ${this.options.profile}`)
       console.log(`📂 Output: ${this.getOutputDir()}`)
-      
+
       if (this.options.watch) {
         this.runWatchMode(jestCommand)
       } else {
         await this.runSingleAnalysis(jestCommand)
       }
-      
     } catch (error) {
       console.error('❌ Performance analysis failed:', error.message)
       process.exit(1)
@@ -213,15 +212,15 @@ ENVIRONMENT VARIABLES:
   setupEnvironment() {
     // Set environment variables
     process.env.NODE_ENV = this.options.profile
-    
+
     if (this.options.output) {
       process.env.PERFORMANCE_OUTPUT = this.options.output
     }
-    
+
     if (this.options.threshold) {
       process.env.PERFORMANCE_THRESHOLD = this.options.threshold.toString()
     }
-    
+
     if (this.options.verbose) {
       process.env.PERFORMANCE_VERBOSE = 'true'
     }
@@ -234,51 +233,56 @@ ENVIRONMENT VARIABLES:
   }
 
   getOutputDir() {
-    return this.options.output || 
-           process.env.PERFORMANCE_OUTPUT || 
-           this.performanceConfig.getConfig().output.outputDir
+    return (
+      this.options.output ||
+      process.env.PERFORMANCE_OUTPUT ||
+      this.performanceConfig.getConfig().output.outputDir
+    )
   }
 
   buildJestCommand() {
     const jestArgs = []
-    
+
     // Add reporters - use absolute path instead of <rootDir>
     jestArgs.push('--reporters=default')
-    jestArgs.push(`--reporters=${path.join(process.cwd(), 'reporters', 'performance-reporter.js')}`)
-    
+    jestArgs.push(
+      `--reporters=${path.join(process.cwd(), 'reporters', 'performance-reporter.ts')}`
+    )
+
     // Add test pattern if specified
     if (this.options.pattern) {
       jestArgs.push(`--testPathPatterns="${this.options.pattern}"`)
     }
-    
+
     // Add verbose flag if needed
     if (this.options.verbose) {
       jestArgs.push('--verbose')
     }
-    
+
     // Force run all tests (no cache)
     jestArgs.push('--no-cache')
     jestArgs.push('--forceExit')
-    
+
     return `npx jest ${jestArgs.join(' ')}`
   }
 
   async runSingleAnalysis(jestCommand) {
     const startTime = Date.now()
-    
+
     try {
       // Run Jest with performance reporter
-      execSync(jestCommand, { 
+      execSync(jestCommand, {
         stdio: 'inherit',
-        cwd: process.cwd()
+        cwd: process.cwd(),
       })
-      
+
       const duration = Date.now() - startTime
-      console.log(`✅ Performance analysis completed in ${(duration / 1000).toFixed(2)}s`)
-      
+      console.log(
+        `✅ Performance analysis completed in ${(duration / 1000).toFixed(2)}s`
+      )
+
       // Post-processing
       await this.postProcess()
-      
     } catch (error) {
       console.error('❌ Jest execution failed:', error.message)
       throw error
@@ -288,18 +292,22 @@ ENVIRONMENT VARIABLES:
   runWatchMode(jestCommand) {
     console.log('👀 Starting watch mode...')
     console.log('Press Ctrl+C to exit')
-    
+
     const watchCommand = jestCommand + ' --watch'
-    
-    const child = spawn('npx', ['jest', ...jestCommand.split(' ').slice(2), '--watch'], {
-      stdio: 'inherit',
-      cwd: process.cwd()
-    })
-    
+
+    const child = spawn(
+      'npx',
+      ['jest', ...jestCommand.split(' ').slice(2), '--watch'],
+      {
+        stdio: 'inherit',
+        cwd: process.cwd(),
+      }
+    )
+
     child.on('error', (error) => {
       console.error('❌ Watch mode failed:', error.message)
     })
-    
+
     // Handle graceful shutdown
     process.on('SIGINT', () => {
       console.log('\n👋 Stopping watch mode...')
@@ -310,25 +318,25 @@ ENVIRONMENT VARIABLES:
 
   async postProcess() {
     const outputDir = this.getOutputDir()
-    
+
     console.log('🔄 Post-processing results...')
-    
+
     // Find latest report
     const latestReport = this.findLatestReport(outputDir)
-    
+
     if (latestReport) {
       console.log(`📊 Latest report: ${latestReport}`)
-      
+
       // Handle comparison
       if (this.options.compare) {
         await this.generateComparison(latestReport)
       }
-      
+
       // Open browser if requested
       if (this.options.open) {
         await this.openReport(latestReport)
       }
-      
+
       // Generate summary
       this.generateSummary(latestReport)
     }
@@ -337,21 +345,23 @@ ENVIRONMENT VARIABLES:
   findLatestReport(outputDir) {
     try {
       const files = fs.readdirSync(outputDir)
-      const htmlFiles = files.filter(f => f.endsWith('.html') && f.includes('performance-'))
-      
+      const htmlFiles = files.filter(
+        (f) => f.endsWith('.html') && f.includes('performance-')
+      )
+
       if (htmlFiles.length === 0) {
         return null
       }
-      
+
       // Sort by creation time and get latest
       const latest = htmlFiles
-        .map(f => ({
+        .map((f) => ({
           name: f,
           path: path.join(outputDir, f),
-          mtime: fs.statSync(path.join(outputDir, f)).mtime
+          mtime: fs.statSync(path.join(outputDir, f)).mtime,
         }))
         .sort((a, b) => b.mtime - a.mtime)[0]
-      
+
       return latest.path
     } catch (error) {
       console.warn('Warning: Could not find latest report:', error.message)
@@ -361,7 +371,7 @@ ENVIRONMENT VARIABLES:
 
   async generateComparison(latestReport) {
     console.log('📈 Generating comparison report...')
-    
+
     try {
       // This would compare with previous runs
       // Implementation would read historical data and generate diff
@@ -373,11 +383,11 @@ ENVIRONMENT VARIABLES:
 
   async openReport(reportPath) {
     console.log('🌐 Opening report in browser...')
-    
+
     try {
       const platform = os.platform()
       let command
-      
+
       switch (platform) {
         case 'darwin':
           command = 'open'
@@ -388,7 +398,7 @@ ENVIRONMENT VARIABLES:
         default:
           command = 'xdg-open'
       }
-      
+
       execSync(`${command} "${reportPath}"`, { stdio: 'ignore' })
       console.log('✅ Report opened in browser')
     } catch (error) {
@@ -403,17 +413,17 @@ ENVIRONMENT VARIABLES:
     console.log(`📊 Report: ${reportPath}`)
     console.log(`🔧 Profile: ${this.options.profile}`)
     console.log(`📂 Output: ${this.getOutputDir()}`)
-    
+
     if (this.options.pattern) {
       console.log(`🎯 Pattern: ${this.options.pattern}`)
     }
-    
+
     console.log('\n💡 Next Steps:')
     console.log('• Open the HTML report to view detailed performance metrics')
     console.log('• Check flamegraphs for CPU bottlenecks')
     console.log('• Review memory usage patterns')
     console.log('• Implement recommended optimizations')
-    
+
     if (!this.options.open) {
       console.log(`\n🌐 Open report: file://${reportPath}`)
     }
@@ -423,7 +433,7 @@ ENVIRONMENT VARIABLES:
 // Run the CLI if this file is executed directly
 if (require.main === module) {
   const cli = new PerformanceAnalysisCLI()
-  cli.run().catch(error => {
+  cli.run().catch((error) => {
     console.error('❌ Fatal error:', error)
     process.exit(1)
   })

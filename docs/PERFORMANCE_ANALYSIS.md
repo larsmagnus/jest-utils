@@ -5,24 +5,28 @@ A comprehensive Jest performance reporter that provides detailed performance ana
 ## Features
 
 🚀 **Comprehensive Performance Metrics**
+
 - High-resolution timing for tests and suites
 - Memory usage tracking and leak detection
 - CPU profiling with V8 integration
 - Performance regression detection
 
 🔥 **Flamegraph Generation**
+
 - Interactive CPU flamegraphs
 - Function-level performance analysis
 - Visual bottleneck identification
 - D3.js-powered visualizations
 
 📊 **Interactive Reports**
+
 - Rich HTML dashboards with charts
 - Test duration distribution analysis
 - Memory usage patterns
 - Performance recommendations
 
 📈 **Trending and History**
+
 - Historical performance tracking
 - Regression detection
 - Trend analysis across runs
@@ -50,56 +54,56 @@ pnpm test:performance:open
 
 ```bash
 # Full CLI options
-node scripts/performance-analysis.js --help
+node scripts/performance-analysis.ts --help
 
 # CPU profiling with flamegraphs
-node scripts/performance-analysis.js --cpu-only --flamegraph
+node scripts/performance-analysis.ts --cpu-only --flamegraph
 
 # Watch mode for development
-node scripts/performance-analysis.js --watch
+node scripts/performance-analysis.ts --watch
 
 # Compare with previous runs
-node scripts/performance-analysis.js --compare
+node scripts/performance-analysis.ts --compare
 
 # Specific test pattern
-node scripts/performance-analysis.js --pattern="auth.*test.js"
+node scripts/performance-analysis.ts --pattern="auth.*test.js"
 ```
 
 ## Configuration
 
 ### Performance Configuration File
 
-The performance reporter is configured via `performance.config.js`:
+The performance reporter is configured via `performance.config.ts`:
 
 ```javascript
 module.exports = {
   output: {
-    outputDir: 'performance-reports',
+    outputDir: 'reports/performance-reports',
     htmlReport: true,
     jsonReport: true,
     flamegraphReport: true,
   },
-  
+
   profiling: {
     enableCPUProfiling: true,
     enableMemoryProfiling: true,
     sampleInterval: 1000, // microseconds
   },
-  
+
   thresholds: {
     slowTestThreshold: 1000, // ms
     memoryThreshold: 50, // MB
   },
-  
+
   trending: {
     enabled: true,
     maxHistoryRuns: 100,
   },
-  
+
   flamegraph: {
     width: 1200,
     height: 600,
-  }
+  },
 }
 ```
 
@@ -108,16 +112,19 @@ module.exports = {
 Different environments have optimized configurations:
 
 **Development Profile:**
+
 - Detailed profiling with lower sample intervals
 - Larger flamegraph dimensions
 - All features enabled
 
 **CI Profile:**
+
 - Lighter profiling to avoid timeouts
 - Stricter performance thresholds
 - Focus on memory analysis
 
 **Production Profile:**
+
 - Minimal profiling overhead
 - Essential metrics only
 - No flamegraph generation
@@ -137,12 +144,14 @@ The interactive HTML report includes:
 ### Performance Metrics
 
 **Test Metrics:**
+
 - `duration`: Test execution time in milliseconds
 - `memoryDelta`: Memory usage change during test
 - `isSlowTest`: Exceeds slow test threshold
 - `hasMemoryIssue`: High memory usage detected
 
 **Suite Metrics:**
+
 - `duration`: Total suite execution time
 - `tests`: Array of test performance data
 - `memorySnapshots`: Memory state at key points
@@ -150,12 +159,14 @@ The interactive HTML report includes:
 ### Flamegraphs
 
 CPU flamegraphs show:
+
 - Function call hierarchy
 - Time spent in each function
 - Performance bottlenecks
 - Call stack visualization
 
 **Reading Flamegraphs:**
+
 - Width = time spent in function
 - Height = call stack depth
 - Color = different functions
@@ -173,7 +184,7 @@ CPU flamegraphs show:
 
 ```bash
 # Set custom slow test threshold
-node scripts/performance-analysis.js --threshold=500
+node scripts/performance-analysis.ts --threshold=500
 
 # Via environment variable
 PERFORMANCE_THRESHOLD=500 pnpm test:performance
@@ -190,7 +201,7 @@ When you only need CPU analysis:
 pnpm test:performance:cpu
 
 # Or with custom options
-node scripts/performance-analysis.js --cpu-only --flamegraph --verbose
+node scripts/performance-analysis.ts --cpu-only --flamegraph --verbose
 ```
 
 ### Memory Analysis
@@ -202,7 +213,7 @@ Focus on memory usage patterns:
 pnpm test:performance:memory
 
 # High memory threshold for detailed analysis
-node scripts/performance-analysis.js --memory-only --threshold=25
+node scripts/performance-analysis.ts --memory-only --threshold=25
 ```
 
 ### Watch Mode Development
@@ -214,7 +225,7 @@ Continuous analysis during development:
 pnpm test:performance:watch
 
 # Watch specific test pattern
-node scripts/performance-analysis.js --watch --pattern="auth.*"
+node scripts/performance-analysis.ts --watch --pattern="auth.*"
 ```
 
 ### Comparison Analysis
@@ -226,7 +237,7 @@ Compare performance across runs:
 pnpm test:performance:compare
 
 # Generate regression report
-node scripts/performance-analysis.js --compare --format=json
+node scripts/performance-analysis.ts --compare --format=json
 ```
 
 ## Interpreting Results
@@ -236,11 +247,13 @@ node scripts/performance-analysis.js --compare --format=json
 The reporter automatically generates recommendations:
 
 **High Priority Issues:**
+
 - Tests exceeding slow thresholds
 - Memory leaks and high usage
 - Performance regressions
 
 **Optimization Suggestions:**
+
 - Break down large tests
 - Optimize slow functions
 - Improve cleanup procedures
@@ -249,18 +262,21 @@ The reporter automatically generates recommendations:
 ### Common Performance Issues
 
 **Slow Tests:**
+
 - Database operations without mocking
 - Complex calculations
 - File system operations
 - Network requests
 
 **Memory Issues:**
+
 - Uncleared timers and intervals
 - Event listeners not removed
 - Large data structures
 - Circular references
 
 **Suite-Level Issues:**
+
 - Too many tests in single file
 - Heavy setup/teardown operations
 - Shared state between tests
@@ -297,10 +313,10 @@ Set performance budgets in CI:
 
 ```bash
 # Fail if average test time exceeds budget
-node scripts/performance-analysis.js --threshold=200 --profile=ci
+node scripts/performance-analysis.ts --threshold=200 --profile=ci
 
 # Check for regressions
-node scripts/performance-analysis.js --compare --profile=ci
+node scripts/performance-analysis.ts --compare --profile=ci
 ```
 
 ## Troubleshooting
@@ -308,15 +324,18 @@ node scripts/performance-analysis.js --compare --profile=ci
 ### Common Issues
 
 **V8 Profiling Errors:**
+
 - Ensure Node.js version supports V8 profiling
 - Check for sufficient memory and permissions
 - Reduce sample interval if needed
 
 **Memory Snapshot Failures:**
+
 - Increase Node.js heap size: `node --max-old-space-size=4096`
 - Ensure write permissions to output directory
 
 **Report Generation Issues:**
+
 - Verify Chart.js and D3.js CDN availability
 - Check HTML report template syntax
 - Ensure output directory is writable
@@ -327,7 +346,7 @@ Enable verbose logging:
 
 ```bash
 # Verbose output
-node scripts/performance-analysis.js --verbose
+node scripts/performance-analysis.ts --verbose
 
 # Environment variable
 PERFORMANCE_VERBOSE=true pnpm test:performance
@@ -335,7 +354,7 @@ PERFORMANCE_VERBOSE=true pnpm test:performance
 
 ## File Structure
 
-```
+```sh
 performance-reports/
 ├── performance-run-123.json          # Raw performance data
 ├── html-reports/
@@ -363,15 +382,15 @@ const PerformanceReporter = require('./reporters/performance-reporter')
 
 const reporter = new PerformanceReporter(globalConfig, {
   output: {
-    outputDir: 'custom-reports',
-    htmlReport: true
+    outputDir: 'reports/custom-reports',
+    htmlReport: true,
   },
   profiling: {
-    enableCPUProfiling: true
+    enableCPUProfiling: true,
   },
   thresholds: {
-    slowTestThreshold: 500
-  }
+    slowTestThreshold: 500,
+  },
 })
 ```
 

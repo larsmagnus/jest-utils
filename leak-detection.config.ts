@@ -44,7 +44,7 @@ module.exports = {
   common: {
     // Files and directories
     logFile: 'leak-detection.log',
-    heapSnapshotDir: './heap-snapshots',
+    heapSnapshotDir: './reports/heap-snapshots',
 
     // Test filtering
     excludePatterns: [

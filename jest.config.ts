@@ -3,7 +3,7 @@ module.exports = {
   reporters: [
     'default', // Keep the default reporter
     [
-      '<rootDir>/reporters/custom-reporter.js',
+      '<rootDir>/reporters/custom-reporter.ts',
       {
         logFile: 'test-report.log',
         enableLeakDetection: true,
@@ -15,8 +15,8 @@ module.exports = {
       },
     ],
     [
-      '<rootDir>/reporters/performance-reporter.js',
-      require('./performance.config.js').getConfig(),
+      '<rootDir>/reporters/performance-reporter.ts',
+      require('./performance.config.ts').getConfig(),
     ],
   ],
   projects: [

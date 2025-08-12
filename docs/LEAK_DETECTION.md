@@ -31,11 +31,11 @@ This project includes comprehensive memory leak detection utilities to help iden
 
 ### Option 1: Automatic Integration (Recommended)
 
-Add to your `jest.config.js`:
+Add to your `jest.config.ts`:
 
 ```javascript
 module.exports = {
-  setupFilesAfterEnv: ['<rootDir>/jest-setup-leak-detection.js'],
+  setupFilesAfterEnv: ['<rootDir>/jest-setup-leak-detection.ts'],
   // ... other config
 }
 ```
@@ -49,7 +49,7 @@ module.exports = {
   reporters: [
     'default',
     [
-      '<rootDir>/reporters/custom-reporter.js',
+      '<rootDir>/reporters/custom-reporter.ts',
       {
         enableLeakDetection: true,
         leakDetection: {
@@ -109,7 +109,7 @@ NODE_ENV=development|ci|production
 
 ### Configuration File
 
-Use `leak-detection.config.js` for detailed configuration:
+Use `leak-detection.config.ts` for detailed configuration:
 
 ```javascript
 module.exports = {

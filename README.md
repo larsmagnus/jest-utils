@@ -46,14 +46,14 @@ pnpm test:server
 
 ## Project Structure
 
-```
+```sh
 jest-utils/
 ├── reporters/           # Custom Jest reporters
 ├── utils/              # Reusable utilities
 ├── docs/               # Documentation
 ├── mixed/              # Test files for demo/testing
-├── jest.config.js      # Jest configuration
-└── leak-detection.config.js  # Leak detection settings
+├── jest.config.ts      # Jest configuration
+└── leak-detection.config.ts  # Leak detection settings
 ```
 
 ## Configuration
@@ -66,13 +66,13 @@ The project supports multiple configuration options:
 
 ## Utilities
 
-### Custom Reporter (`reporters/custom-reporter.js`)
+### Custom Reporter (`reporters/custom-reporter.ts`)
 
 - Comprehensive test lifecycle logging
 - Flaky test detection and reporting
 - Memory leak detection integration
 
-### Leak Detector (`utils/leak-detector.js`)
+### Leak Detector (`utils/leak-detector.ts`)
 
 - Standalone memory leak detection utility
 - Configurable thresholds and analysis
@@ -80,7 +80,7 @@ The project supports multiple configuration options:
 
 ### Setup Files
 
-- `jest-setup-leak-detection.js` - Automatic leak detection setup
+- `jest-setup-leak-detection.ts` - Automatic leak detection setup
 
 ## Development
 
