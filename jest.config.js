@@ -14,6 +14,10 @@ module.exports = {
         },
       },
     ],
+    [
+      '<rootDir>/reporters/performance-reporter.js',
+      require('./performance.config.js').getConfig(),
+    ],
   ],
   projects: [
     {

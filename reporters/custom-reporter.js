@@ -106,7 +106,7 @@ class CustomReporter {
         : null
 
     // Configuration for logging
-    this.logFile = this.options.logFile || 'test-report.log'
+    this.logFile = this.options.logFile || 'reports/test-report.log'
 
     // Only enable verbose mode if Jest's --verbose flag is set
     // Check both globalConfig.verbose and options.verbose (for explicit override)
@@ -124,7 +124,7 @@ class CustomReporter {
    */
   initializeFlakyTracker() {
     const historyFile =
-      this.options.flakyHistoryFile || 'flaky-test-history.json'
+      this.options.flakyHistoryFile || 'reports/flaky-test-history.json'
     const maxHistoryRuns = this.options.maxHistoryRuns || 50 // Keep last 50 runs
     const flakyThreshold = this.options.flakyThreshold || 0.2 // 20% failure rate = flaky
 
