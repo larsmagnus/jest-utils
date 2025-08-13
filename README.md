@@ -66,7 +66,7 @@ The project supports multiple configuration options:
 
 ## Utilities
 
-### Custom Reporter (`src/reporters/custom-reporter.ts`)
+### Custom Flake Reporter (`src/reporters/flake-reporter.ts`)
 
 - Comprehensive test lifecycle logging
 - Flaky test detection and reporting

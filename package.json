@@ -15,16 +15,27 @@
   "homepage": "https://larsmagnus.co",
   "main": "index.js",
   "scripts": {
+    "build": "tsc",
+    "build:watch": "tsc --watch",
+    "clean": "rm -rf dist",
+    "type-check": "tsc --noEmit",
     "test": "jest",
     "test:client": "jest --selectProjects client",
     "test:server": "jest --selectProjects server",
-    "test:performance": "node src/performance-analysis.ts",
-    "test:performance:cpu": "node src/performance-analysis.ts --cpu-only --flamegraph",
-    "test:performance:memory": "node src/performance-analysis.ts --memory-only",
-    "test:performance:watch": "node src/performance-analysis.ts --watch",
-    "test:performance:open": "node src/performance-analysis.ts --open",
-    "test:performance:compare": "node src/performance-analysis.ts --compare",
-    "lint": "oxlint --fix && prettier . --write"
+    "test:ts": "jest --testMatch=\"**/*.test.ts\"",
+    "test:js": "jest --testMatch=\"**/*.test.js\"",
+    "test:watch": "jest --watch",
+    "test:coverage": "jest --coverage",
+    "test:performance": "tsx src/performance-analysis.ts",
+    "test:performance:cpu": "tsx src/performance-analysis.ts --cpu-only --flamegraph",
+    "test:performance:memory": "tsx src/performance-analysis.ts --memory-only",
+    "test:performance:watch": "tsx src/performance-analysis.ts --watch",
+    "test:performance:open": "tsx src/performance-analysis.ts --open",
+    "test:performance:compare": "tsx src/performance-analysis.ts --compare",
+    "lint": "oxlint --fix && prettier . --write",
+    "lint:ts": "oxlint src/**/*.ts --fix",
+    "dev": "tsx --watch",
+    "pretest": "npm run type-check"
   },
   "keywords": [
     "jest",
@@ -38,12 +49,17 @@
   ],
   "packageManager": "pnpm@10.12.4",
   "devDependencies": {
+    "@jest/test-result": "^30.0.5",
+    "@jest/types": "^30.0.5",
     "@types/jest": "^30.0.0",
     "@types/node": "^24.2.1",
     "jest": "^30.0.4",
     "jest-environment-jsdom": "^30.0.4",
     "oxlint": "^1.6.0",
     "prettier": "^3.6.2",
+    "ts-jest": "^29.2.5",
+    "ts-node": "^10.9.2",
+    "tsx": "^4.19.2",
     "typescript": "^5.9.2"
   }
 }

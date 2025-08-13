@@ -49,7 +49,7 @@ module.exports = {
   reporters: [
     'default',
     [
-      '<rootDir>/src/reporters/custom-reporter.ts',
+      '<rootDir>/src/reporters/flake-reporter.ts',
       {
         enableLeakDetection: true,
         leakDetection: {

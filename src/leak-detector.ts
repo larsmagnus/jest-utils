@@ -20,16 +20,112 @@
  * - Memory Management: https://developer.mozilla.org/en-US/docs/Web/JavaScript/Memory_Management
  */
 
-const fs = require('fs')
-const path = require('path')
-const v8 = require('v8')
+import * as fs from 'fs'
+import * as path from 'path'
+import * as v8 from 'v8'
 
-class LeakDetector {
-  constructor(options = {}) {
+interface LeakDetectorOptions {
+  memoryThresholdMB?: number
+  heapGrowthThreshold?: number
+  trackEventListeners?: boolean
+  trackTimers?: boolean
+  trackGlobals?: boolean
+  trackPromises?: boolean
+  generateHeapSnapshots?: boolean
+  heapSnapshotDir?: string
+  logFile?: string
+  verbose?: boolean
+  excludePatterns?: string[]
+  includePatterns?: string[]
+}
+
+interface TestSnapshot {
+  testId: string
+  testName: string
+  testFile: string
+  startTime: number
+  memoryUsage: NodeJS.MemoryUsage
+  heapUsed: number
+  globalVarCount: number
+  timers: Set<any>
+  eventListeners: Map<any, any[]>
+  promises: Set<Promise<any>>
+}
+
+interface TestMetrics {
+  testName: string
+  testFile: string
+  startTime: number
+  endTime?: number
+  duration?: number
+  status?: string
+  initialMemory: MemoryUsageWithTimestamp
+  finalMemory?: MemoryUsageWithTimestamp
+  initialGlobals: Set<string>
+  finalGlobals?: Set<string>
+  initialTimers: TimerState
+  finalTimers?: TimerState
+  initialEventListeners: EventListenerState
+  finalEventListeners?: EventListenerState
+  leaksDetected: LeakReport[]
+  warnings: LeakReport[]
+}
+
+interface MemoryUsageWithTimestamp extends NodeJS.MemoryUsage {
+  timestamp: number
+}
+
+interface TimerState {
+  count: number
+  timestamp: number
+}
+
+interface EventListenerState {
+  count: number
+  timestamp: number
+}
+
+interface LeakSummary {
+  totalTests: number
+  testsWithLeaks: number
+  testsWithWarnings: number
+  totalLeaks: number
+  totalWarnings: number
+  leakTypeBreakdown: Record<string, number>
+  worstOffenders: Array<{
+    test: string
+    leakCount: number
+    memoryImpact: string
+  }>
+}
+
+interface LeakReport {
+  type: string
+  severity: 'low' | 'medium' | 'high'
+  message: string
+  details?: any
+  recommendation: string
+}
+
+export class LeakDetector {
+  private options: Required<LeakDetectorOptions>
+  private activeTests: Map<string, TestSnapshot> = new Map()
+  private testHistory: TestMetrics[] = []
+  private originalGlobalKeys: Set<string>
+  private globalTimerMethods: any
+  private leakReports: LeakReport[] = []
+  private testMetrics: Map<string, TestMetrics> = new Map()
+  private globalState: {
+    initialHeap: NodeJS.MemoryUsage | null
+    initialGlobals: Set<string> | null
+    currentTest: string | null
+  }
+
+  constructor(options: LeakDetectorOptions = {}) {
     this.options = {
       // Memory thresholds
-      memoryThresholdMB: options.memoryThresholdMB || 50, // Alert if test increases memory by 50MB
-      heapGrowthThreshold: options.heapGrowthThreshold || 0.2, // Alert if heap grows by 20%
+      memoryThresholdMB: options.memoryThresholdMB ?? 50, // Alert if test increases memory by 50MB
+      heapGrowthThreshold: options.heapGrowthThreshold ?? 0.2, // Alert if heap grows by 20%
 
       // Resource tracking
       trackEventListeners: options.trackEventListeners !== false,
@@ -38,32 +134,30 @@ class LeakDetector {
       trackPromises: options.trackPromises !== false,
 
       // Reporting
-      generateHeapSnapshots: options.generateHeapSnapshots || false,
-      heapSnapshotDir: options.heapSnapshotDir || './reports/heap-snapshots',
-      logFile: options.logFile || 'leak-detection.log',
-      verbose: options.verbose || false,
+      generateHeapSnapshots: options.generateHeapSnapshots ?? false,
+      heapSnapshotDir: options.heapSnapshotDir ?? './reports/heap-snapshots',
+      logFile: options.logFile ?? 'leak-detection.log',
+      verbose: options.verbose ?? false,
 
       // Test filtering
-      excludePatterns: options.excludePatterns || [],
-      includePatterns: options.includePatterns || [],
-
-      ...options,
+      excludePatterns: options.excludePatterns ?? [],
+      includePatterns: options.includePatterns ?? [],
     }
 
-    this.testMetrics = new Map()
     this.globalState = {
       initialHeap: null,
       initialGlobals: null,
       currentTest: null,
     }
 
+    this.originalGlobalKeys = new Set()
     this.setupGlobalHooks()
   }
 
   /**
    * Set up global monitoring hooks
    */
-  setupGlobalHooks() {
+  private setupGlobalHooks(): void {
     // Track initial global state
     this.globalState.initialGlobals = this.captureGlobalState()
     this.globalState.initialHeap = this.getMemoryUsage()
@@ -74,15 +168,22 @@ class LeakDetector {
   }
 
   /**
-   * Start monitoring a test
-   * @param {string} testName - Full test name
-   * @param {string} testFile - Test file path
+   * Get exclude patterns for external access
    */
-  startTest(testName, testFile) {
+  getExcludePatterns(): string[] {
+    return this.options.excludePatterns
+  }
+
+  /**
+   * Start monitoring a test
+   * @param testName - Full test name
+   * @param testFile - Test file path
+   */
+  public startTest(testName: string, testFile: string): string {
     const testId = `${testFile} > ${testName}`
     this.globalState.currentTest = testId
 
-    const metrics = {
+    const metrics: TestMetrics = {
       testName,
       testFile,
       startTime: Date.now(),
@@ -105,10 +206,10 @@ class LeakDetector {
 
   /**
    * Finish monitoring a test and analyze for leaks
-   * @param {string} testId - Test identifier
-   * @param {string} status - Test status (passed, failed, etc.)
+   * @param testId - Test identifier
+   * @param status - Test status (passed, failed, etc.)
    */
-  finishTest(testId, status) {
+  public finishTest(testId: string, status: string): TestMetrics | null {
     const metrics = this.testMetrics.get(testId)
     if (!metrics) {
       this.log(`Warning: No metrics found for test ${testId}`, 'WARN')
@@ -148,9 +249,11 @@ class LeakDetector {
 
   /**
    * Analyze memory usage for leaks
-   * @param {Object} metrics - Test metrics
+   * @param metrics - Test metrics
    */
-  analyzeMemoryLeak(metrics) {
+  private analyzeMemoryLeak(metrics: TestMetrics): void {
+    if (!metrics.finalMemory) return
+
     const memoryDiff =
       metrics.finalMemory.heapUsed - metrics.initialMemory.heapUsed
     const memoryDiffMB = memoryDiff / (1024 * 1024)
@@ -159,7 +262,7 @@ class LeakDetector {
     if (memoryDiffMB > this.options.memoryThresholdMB) {
       metrics.leaksDetected.push({
         type: 'MEMORY_LEAK',
-        severity: 'HIGH',
+        severity: 'high',
         message: `Memory increased by ${memoryDiffMB.toFixed(
           2
         )}MB (threshold: ${this.options.memoryThresholdMB}MB)`,
@@ -169,11 +272,13 @@ class LeakDetector {
           difference: memoryDiff,
           growthRate: heapGrowthRate,
         },
+        recommendation:
+          'Check for objects being retained in memory, consider using WeakMap/WeakSet for references',
       })
     } else if (heapGrowthRate > this.options.heapGrowthThreshold) {
       metrics.warnings.push({
         type: 'MEMORY_GROWTH',
-        severity: 'MEDIUM',
+        severity: 'medium',
         message: `Heap grew by ${(heapGrowthRate * 100).toFixed(
           1
         )}% (threshold: ${this.options.heapGrowthThreshold * 100}%)`,
@@ -181,16 +286,18 @@ class LeakDetector {
           growthRate: heapGrowthRate,
           memoryDiffMB: memoryDiffMB,
         },
+        recommendation:
+          'Monitor memory usage patterns and consider optimizing object creation',
       })
     }
   }
 
   /**
    * Analyze global variables for leaks
-   * @param {Object} metrics - Test metrics
+   * @param metrics - Test metrics
    */
-  analyzeGlobalLeak(metrics) {
-    if (!this.options.trackGlobals) return
+  private analyzeGlobalLeak(metrics: TestMetrics): void {
+    if (!this.options.trackGlobals || !metrics.finalGlobals) return
 
     const newGlobals = this.diffGlobalState(
       metrics.initialGlobals,
@@ -198,7 +305,7 @@ class LeakDetector {
     )
 
     if (newGlobals.length > 0) {
-      const severity = newGlobals.length > 5 ? 'HIGH' : 'MEDIUM'
+      const severity = newGlobals.length > 5 ? 'high' : 'medium'
       metrics.leaksDetected.push({
         type: 'GLOBAL_VARIABLE_LEAK',
         severity,
@@ -207,39 +314,44 @@ class LeakDetector {
           newGlobals: newGlobals.slice(0, 10), // Limit to first 10 for readability
           totalCount: newGlobals.length,
         },
+        recommendation:
+          'Clean up global variables in afterEach hooks or use proper scoping',
       })
     }
   }
 
   /**
    * Analyze timers for leaks
-   * @param {Object} metrics - Test metrics
+   * @param metrics - Test metrics
    */
-  analyzeTimerLeak(metrics) {
-    if (!this.options.trackTimers) return
+  private analyzeTimerLeak(metrics: TestMetrics): void {
+    if (!this.options.trackTimers || !metrics.finalTimers) return
 
     const timerDiff = metrics.finalTimers.count - metrics.initialTimers.count
 
     if (timerDiff > 0) {
       metrics.leaksDetected.push({
         type: 'TIMER_LEAK',
-        severity: timerDiff > 5 ? 'HIGH' : 'MEDIUM',
+        severity: timerDiff > 5 ? 'high' : 'medium',
         message: `${timerDiff} timer(s) not cleaned up`,
         details: {
           initialCount: metrics.initialTimers.count,
           finalCount: metrics.finalTimers.count,
           leakedTimers: timerDiff,
         },
+        recommendation:
+          'Use clearTimeout() and clearInterval() to clean up timers',
       })
     }
   }
 
   /**
    * Analyze event listeners for leaks
-   * @param {Object} metrics - Test metrics
+   * @param metrics - Test metrics
    */
-  analyzeEventListenerLeak(metrics) {
-    if (!this.options.trackEventListeners) return
+  private analyzeEventListenerLeak(metrics: TestMetrics): void {
+    if (!this.options.trackEventListeners || !metrics.finalEventListeners)
+      return
 
     const listenerDiff =
       metrics.finalEventListeners.count - metrics.initialEventListeners.count
@@ -247,22 +359,24 @@ class LeakDetector {
     if (listenerDiff > 0) {
       metrics.leaksDetected.push({
         type: 'EVENT_LISTENER_LEAK',
-        severity: listenerDiff > 10 ? 'HIGH' : 'MEDIUM',
+        severity: listenerDiff > 10 ? 'high' : 'medium',
         message: `${listenerDiff} event listener(s) not removed`,
         details: {
           initialCount: metrics.initialEventListeners.count,
           finalCount: metrics.finalEventListeners.count,
           leakedListeners: listenerDiff,
         },
+        recommendation:
+          'Use removeEventListener() or AbortController to clean up event listeners',
       })
     }
   }
 
   /**
    * Get current memory usage
-   * @returns {Object} Memory usage statistics
+   * @returns Memory usage statistics
    */
-  getMemoryUsage() {
+  private getMemoryUsage(): MemoryUsageWithTimestamp {
     const usage = process.memoryUsage()
     return {
       ...usage,
@@ -272,9 +386,9 @@ class LeakDetector {
 
   /**
    * Capture current global state
-   * @returns {Set} Set of global property names
+   * @returns Set of global property names
    */
-  captureGlobalState() {
+  private captureGlobalState(): Set<string> {
     if (typeof window !== 'undefined') {
       // Browser environment
       return new Set(Object.getOwnPropertyNames(window))
@@ -286,40 +400,40 @@ class LeakDetector {
 
   /**
    * Compare global states and find new variables
-   * @param {Set} initial - Initial global state
-   * @param {Set} final - Final global state
-   * @returns {Array} Array of new global variable names
+   * @param initial - Initial global state
+   * @param final - Final global state
+   * @returns Array of new global variable names
    */
-  diffGlobalState(initial, final) {
-    const newGlobals = []
-    for (const prop of final) {
+  private diffGlobalState(initial: Set<string>, final: Set<string>): string[] {
+    const newGlobals: string[] = []
+    final.forEach((prop) => {
       if (!initial.has(prop)) {
         newGlobals.push(prop)
       }
-    }
+    })
     return newGlobals
   }
 
   /**
    * Capture current timer state (approximate)
-   * @returns {Object} Timer state information
+   * @returns Timer state information
    */
-  captureTimerState() {
+  private captureTimerState(): TimerState {
     // This is an approximation since Node.js doesn't expose active timer count directly
     // In a real implementation, you might monkey-patch setTimeout/setInterval
     return {
       count:
-        process._getActiveHandles().length +
-        process._getActiveRequests().length,
+        (process as any)._getActiveHandles().length +
+        (process as any)._getActiveRequests().length,
       timestamp: Date.now(),
     }
   }
 
   /**
    * Capture current event listener state (approximate)
-   * @returns {Object} Event listener state information
+   * @returns Event listener state information
    */
-  captureEventListenerState() {
+  private captureEventListenerState(): EventListenerState {
     let count = 0
 
     if (typeof window !== 'undefined' && window.document) {
@@ -327,10 +441,10 @@ class LeakDetector {
       count = document.querySelectorAll('*').length // Rough approximation
     } else {
       // Node.js environment - count EventEmitter listeners
-      const _EventEmitter = require('events')
-      count = process.listenerCount
-        ? Object.keys(process._events || {}).length
-        : 0
+      count =
+        typeof process.listenerCount === 'function'
+          ? Object.keys((process as any)._events || {}).length
+          : 0
     }
 
     return {
@@ -341,9 +455,9 @@ class LeakDetector {
 
   /**
    * Generate heap snapshot for analysis
-   * @param {string} testId - Test identifier
+   * @param testId - Test identifier
    */
-  generateHeapSnapshot(testId) {
+  private generateHeapSnapshot(testId: string): void {
     try {
       const sanitizedTestId = testId.replace(/[^a-zA-Z0-9-_]/g, '_')
       const filename = `heap-${sanitizedTestId}-${Date.now()}.heapsnapshot`
@@ -351,22 +465,26 @@ class LeakDetector {
 
       v8.writeHeapSnapshot(filepath)
       this.log(`💾 Heap snapshot saved: ${filepath}`)
-    } catch (error) {
-      this.log(`Error generating heap snapshot: ${error.message}`, 'ERROR')
+    } catch (error: unknown) {
+      const errorMessage =
+        error instanceof Error ? error.message : String(error)
+      this.log(`Error generating heap snapshot: ${errorMessage}`, 'ERROR')
     }
   }
 
   /**
    * Ensure heap snapshot directory exists
    */
-  ensureHeapSnapshotDir() {
+  private ensureHeapSnapshotDir(): void {
     try {
       if (!fs.existsSync(this.options.heapSnapshotDir)) {
         fs.mkdirSync(this.options.heapSnapshotDir, { recursive: true })
       }
-    } catch (error) {
+    } catch (error: unknown) {
+      const errorMessage =
+        error instanceof Error ? error.message : String(error)
       this.log(
-        `Error creating heap snapshot directory: ${error.message}`,
+        `Error creating heap snapshot directory: ${errorMessage}`,
         'ERROR'
       )
     }
@@ -374,9 +492,9 @@ class LeakDetector {
 
   /**
    * Report detected leaks
-   * @param {Object} metrics - Test metrics with leak information
+   * @param metrics - Test metrics with leak information
    */
-  reportLeaks(metrics) {
+  private reportLeaks(metrics: TestMetrics): void {
     const testName = `${metrics.testFile} > ${metrics.testName}`
 
     this.log(`🚨 LEAK DETECTION REPORT: ${testName}`, 'WARN')
@@ -413,10 +531,12 @@ class LeakDetector {
     }
 
     // Memory summary
-    const memoryDiff =
-      metrics.finalMemory.heapUsed - metrics.initialMemory.heapUsed
-    const memoryDiffMB = (memoryDiff / (1024 * 1024)).toFixed(2)
-    this.log(`📊 Memory Impact: ${memoryDiffMB}MB change`)
+    if (metrics.finalMemory) {
+      const memoryDiff =
+        metrics.finalMemory.heapUsed - metrics.initialMemory.heapUsed
+      const memoryDiffMB = (memoryDiff / (1024 * 1024)).toFixed(2)
+      this.log(`📊 Memory Impact: ${memoryDiffMB}MB change`)
+    }
     this.log(`⏱️  Test Duration: ${metrics.duration}ms`)
 
     this.log('─'.repeat(80))
@@ -432,14 +552,14 @@ class LeakDetector {
 
   /**
    * Get summary of all detected leaks
-   * @returns {Object} Summary statistics
+   * @returns Summary statistics
    */
-  getSummary() {
+  public getSummary(): LeakSummary {
     const allMetrics = Array.from(this.testMetrics.values())
     const testsWithLeaks = allMetrics.filter((m) => m.leaksDetected.length > 0)
     const testsWithWarnings = allMetrics.filter((m) => m.warnings.length > 0)
 
-    const leakTypes = {}
+    const leakTypes: Record<string, number> = {}
     allMetrics.forEach((metrics) => {
       metrics.leaksDetected.forEach((leak) => {
         leakTypes[leak.type] = (leakTypes[leak.type] || 0) + 1
@@ -462,10 +582,12 @@ class LeakDetector {
         .map((m) => ({
           test: `${m.testFile} > ${m.testName}`,
           leakCount: m.leaksDetected.length,
-          memoryImpact: (
-            (m.finalMemory.heapUsed - m.initialMemory.heapUsed) /
-            (1024 * 1024)
-          ).toFixed(2),
+          memoryImpact: m.finalMemory
+            ? (
+                (m.finalMemory.heapUsed - m.initialMemory.heapUsed) /
+                (1024 * 1024)
+              ).toFixed(2)
+            : 'N/A',
         })),
     }
   }
@@ -473,17 +595,17 @@ class LeakDetector {
   /**
    * Clean up and reset detector state
    */
-  cleanup() {
+  public cleanup(): void {
     this.testMetrics.clear()
     this.globalState.currentTest = null
   }
 
   /**
    * Log message with timestamp
-   * @param {string} message - Message to log
-   * @param {string} level - Log level
+   * @param message - Message to log
+   * @param level - Log level
    */
-  log(message, level = 'INFO') {
+  private log(message: string, level: string = 'INFO'): void {
     const timestamp = new Date().toISOString()
     const logEntry = `[${timestamp}] [${level}] ${message}`
 
@@ -494,10 +616,18 @@ class LeakDetector {
     // Append to log file
     try {
       fs.appendFileSync(this.options.logFile, logEntry + '\n')
-    } catch (error) {
-      console.error(`Failed to write to log file: ${error.message}`)
+    } catch (error: unknown) {
+      const errorMessage =
+        error instanceof Error ? error.message : String(error)
+      console.error(`Failed to write to log file: ${errorMessage}`)
     }
   }
 }
 
-module.exports = LeakDetector
+export default LeakDetector
+export {
+  type LeakDetectorOptions,
+  type TestMetrics,
+  type LeakReport,
+  type LeakSummary,
+}

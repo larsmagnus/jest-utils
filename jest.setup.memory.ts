@@ -10,7 +10,7 @@
  * 3. Run tests normally - leak detection happens automatically
  */
 
-const LeakDetector = require('./src/leak-detector.ts')
+import { LeakDetector } from './src/leak-detector'
 
 // Configure leak detection options
 const leakDetector = new LeakDetector({
@@ -39,8 +39,8 @@ const leakDetector = new LeakDetector({
 })
 
 // Global test tracking
-let currentTestId = null
-const testSummary = new Map()
+let currentTestId: string | null = null
+const testSummary = new Map<string, any>()
 
 /**
  * Hook into Jest lifecycle to automatically track tests
@@ -48,11 +48,13 @@ const testSummary = new Map()
 
 // Before each test - start leak detection
 beforeEach(() => {
-  const testName = expect.getState().currentTestName
-  const testFile = expect.getState().testPath
+  const testState = expect.getState()
+  const testName = testState.currentTestName || 'unknown-test'
+  const testFile = testState.testPath || 'unknown-file'
 
   // Skip if test matches exclude patterns
-  const shouldSkip = leakDetector.options.excludePatterns.some((pattern) => {
+  const excludePatterns = leakDetector.getExcludePatterns()
+  const shouldSkip = excludePatterns.some((pattern) => {
     const regex = new RegExp(pattern, 'i')
     return regex.test(testName) || regex.test(testFile)
   })
@@ -104,7 +106,7 @@ afterAll(() => {
 
     if (summary.worstOffenders.length > 0) {
       console.log('\n🏆 Worst Offenders:')
-      summary.worstOffenders.forEach((offender, index) => {
+      summary.worstOffenders.forEach((offender: any, index: number) => {
         console.log(`   ${index + 1}. ${offender.test}`)
         console.log(
           `      Leaks: ${offender.leakCount}, Memory Impact: ${offender.memoryImpact}MB`
@@ -132,4 +134,4 @@ process.on('exit', () => {
 })
 
 // Export for manual usage if needed
-module.exports = { leakDetector, testSummary }
+export { leakDetector, testSummary }

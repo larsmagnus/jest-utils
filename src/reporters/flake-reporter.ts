@@ -20,22 +20,109 @@
  * @see https://jestjs.io/docs/configuration#reporters
  */
 
-const fs = require('fs')
-const path = require('path')
-const LeakDetector = require('../leak-detector.ts')
-const leakConfig = require('../../jest.config.memory.ts')
+import * as fs from 'fs'
+import * as path from 'path'
+import { Config } from '@jest/types'
+import {
+  AggregatedResult,
+  TestResult,
+  Test,
+  TestCaseResult,
+} from '@jest/test-result'
+import { LeakDetector } from '../leak-detector'
+import { getLeakDetectionConfig } from '../config/leak-detection'
+
+interface CustomReporterOptions {
+  logFile?: string
+  enableLeakDetection?: boolean
+  leakDetection?: {
+    memoryThresholdMB?: number
+    generateHeapSnapshots?: boolean
+    verbose?: boolean
+  }
+  flakyHistoryFile?: string
+  maxHistoryRuns?: number
+  flakyThreshold?: number
+  verbose?: boolean
+}
+
+interface TestFileInfo {
+  environment: string
+  projectName: string
+}
+
+interface FlakyTestResult {
+  status: string
+  duration: number
+  retries: number
+  timestamp: string
+}
+
+interface FlakyTestHistory {
+  runs: Array<{
+    timestamp: string
+    status: string
+    duration: number
+    retries: number
+  }>
+}
+
+interface FlakyTestAnalysis {
+  testName: string
+  failureRate: number
+  totalRuns: number
+  failures: number
+  passes: number
+  lastFailure?: string
+  averageDuration: number
+}
+
+interface FlakyTracker {
+  historyFile: string
+  maxHistoryRuns: number
+  flakyThreshold: number
+  history: Record<string, FlakyTestHistory>
+  currentRun: {
+    timestamp: string
+    tests: Map<string, FlakyTestResult>
+  }
+  recordTest: (
+    testFullName: string,
+    status: string,
+    duration: number,
+    retries?: number
+  ) => void
+  analyzeFlakyTests: () => FlakyTestAnalysis[]
+  saveHistory: () => void
+}
+
+interface TestResultSummary {
+  file: string
+  duration: number
+  passed: number
+  failed: number
+  pending: number
+  todo: number
+}
 
 class CustomReporter {
-  constructor(globalConfig, options) {
-    /**
-     * Store global configuration and reporter options
-     * @param {Object} globalConfig - Jest's global configuration
-     * @param {Object} options - Reporter-specific options from jest config
-     */
+  private globalConfig: Config.GlobalConfig
+  private options: CustomReporterOptions
+  private startTime: number | null = null
+  private testResults: TestResultSummary[] = []
+  private testFileEnvironments: Map<string, TestFileInfo> = new Map()
+  private flakyTracker: FlakyTracker
+  private leakDetector: LeakDetector | null
+  private logFile: string
+  private verbose: boolean
+  private currentLeakTestId: string | null = null
+
+  constructor(
+    globalConfig: Config.GlobalConfig,
+    options: CustomReporterOptions = {}
+  ) {
     this.globalConfig = globalConfig
-    this.options = options || {}
-    this.startTime = null
-    this.testResults = []
+    this.options = options
 
     // Track test file environments to work around Jest's multi-project environment issue
     //
@@ -57,7 +144,6 @@ class CustomReporter {
     // - Jest Reporter API: https://jestjs.io/docs/configuration#reporters
     // - Related Issue: https://github.com/facebook/jest/issues/6565
     // - Jest Runner Context: https://github.com/facebook/jest/blob/main/packages/jest-runner/src/runTest.ts
-    this.testFileEnvironments = new Map()
 
     // Flaky test tracking - maintains test execution history to identify inconsistent tests
     //
@@ -96,15 +182,6 @@ class CustomReporter {
     // - Jest Leak Detection: https://jestjs.io/docs/configuration#detectleaks
     // - Memory Management: https://developer.mozilla.org/en-US/docs/Web/JavaScript/Memory_Management
     // - V8 Heap Profiling: https://nodejs.org/api/v8.html
-    this.leakDetector =
-      this.options.enableLeakDetection !== false
-        ? new LeakDetector({
-            ...leakConfig.getConfig(),
-            ...this.options.leakDetection,
-            verbose: this.verbose,
-          })
-        : null
-
     // Configuration for logging
     this.logFile = this.options.logFile || 'reports/test-report.log'
 
@@ -113,6 +190,18 @@ class CustomReporter {
     this.verbose =
       this.options.verbose === true || globalConfig.verbose === true
 
+    // Initialize flaky test tracking
+    this.flakyTracker = this.initializeFlakyTracker()
+
+    this.leakDetector =
+      this.options.enableLeakDetection !== false
+        ? new LeakDetector({
+            ...getLeakDetectionConfig(),
+            ...this.options.leakDetection,
+            verbose: this.verbose,
+          })
+        : null
+
     this.log('🚀 Custom Reporter initialized')
     this.log(`📊 Logging to: ${this.logFile}`)
     this.log(`🔍 Verbose mode: ${this.verbose ? 'ON' : 'OFF'}`)
@@ -120,16 +209,15 @@ class CustomReporter {
 
   /**
    * Initialize flaky test tracking system
-   * @returns {Object} Flaky tracker with methods and data
    */
-  initializeFlakyTracker() {
+  private initializeFlakyTracker(): FlakyTracker {
     const historyFile =
       this.options.flakyHistoryFile || 'reports/flaky-test-history.json'
     const maxHistoryRuns = this.options.maxHistoryRuns || 50 // Keep last 50 runs
     const flakyThreshold = this.options.flakyThreshold || 0.2 // 20% failure rate = flaky
 
     // Load existing test history
-    let history = {}
+    let history: Record<string, FlakyTestHistory> = {}
     try {
       if (fs.existsSync(historyFile)) {
         const data = fs.readFileSync(historyFile, 'utf8')
@@ -137,7 +225,7 @@ class CustomReporter {
       }
     } catch (error) {
       this.log(
-        `Warning: Could not load flaky test history: ${error.message}`,
+        `Warning: Could not load flaky test history: ${(error as Error).message}`,
         'WARN'
       )
       history = {}
@@ -150,17 +238,18 @@ class CustomReporter {
       history,
       currentRun: {
         timestamp: new Date().toISOString(),
-        tests: new Map(), // testFullName -> { status, duration, retries }
+        tests: new Map<string, FlakyTestResult>(),
       },
 
       /**
        * Record a test result in the current run
-       * @param {string} testFullName - Full test name (file + test name)
-       * @param {string} status - Test status (passed, failed, etc.)
-       * @param {number} duration - Test duration in ms
-       * @param {number} retries - Number of retries (if any)
        */
-      recordTest: (testFullName, status, duration, retries = 0) => {
+      recordTest: (
+        testFullName: string,
+        status: string,
+        duration: number,
+        retries: number = 0
+      ) => {
         this.flakyTracker.currentRun.tests.set(testFullName, {
           status,
           duration,
@@ -171,10 +260,9 @@ class CustomReporter {
 
       /**
        * Analyze test history to identify flaky tests
-       * @returns {Array} Array of flaky test objects
        */
-      analyzeFlakyTests: () => {
-        const flakyTests = []
+      analyzeFlakyTests: (): FlakyTestAnalysis[] => {
+        const flakyTests: FlakyTestAnalysis[] = []
 
         for (const [testName, testHistory] of Object.entries(
           this.flakyTracker.history
@@ -252,7 +340,10 @@ class CustomReporter {
             JSON.stringify(this.flakyTracker.history, null, 2)
           )
         } catch (error) {
-          this.log(`Error saving flaky test history: ${error.message}`, 'ERROR')
+          this.log(
+            `Error saving flaky test history: ${(error as Error).message}`,
+            'ERROR'
+          )
         }
       },
     }
@@ -260,10 +351,11 @@ class CustomReporter {
 
   /**
    * Utility method to log messages with timestamp
-   * @param {string} message - Message to log
-   * @param {string} level - Log level (INFO, WARN, ERROR)
    */
-  log(message, level = 'INFO') {
+  private log(
+    message: string,
+    level: 'INFO' | 'WARN' | 'ERROR' = 'INFO'
+  ): void {
     const timestamp = new Date().toISOString()
     const logEntry = `[${timestamp}] [${level}] ${message}`
 
@@ -277,10 +369,8 @@ class CustomReporter {
 
   /**
    * Called at the beginning of the test run
-   * @param {AggregatedResult} results - Initial results object
-   * @param {Object} options - Run options
    */
-  onRunStart(results, options) {
+  onRunStart(results: AggregatedResult, options: any): void {
     this.startTime = Date.now()
     this.log('🏁 TEST RUN STARTED', 'INFO')
     this.log(
@@ -298,25 +388,29 @@ class CustomReporter {
       this.log(
         `🏗️  Multi-project setup detected: ${this.globalConfig.projects.length} projects`
       )
-      this.globalConfig.projects.forEach((project, index) => {
-        this.log(`   Project ${index + 1}: ${project.displayName || 'unnamed'}`)
+      this.globalConfig.projects.forEach((project: any, index: number) => {
+        const displayName =
+          typeof project === 'string'
+            ? project
+            : project.displayName?.name || project.displayName || 'unnamed'
+        this.log(`   Project ${index + 1}: ${displayName}`)
       })
     }
   }
 
   /**
    * Called when a test file starts running
-   * @param {Test} test - Test file information
    */
-  onTestFileStart(test) {
+  onTestFileStart(test: Test): void {
     const filePath = test.path
     const environment = test.context.config.testEnvironment
 
     // Extract project name more reliably
+    const displayName = test.context.config.displayName
     const projectName =
-      test.context.config.displayName?.name ||
-      test.context.config.displayName ||
-      'default'
+      typeof displayName === 'string'
+        ? displayName
+        : displayName?.name || 'default'
 
     // Store the correct environment and project info for this test file
     this.testFileEnvironments.set(filePath, {
@@ -333,10 +427,8 @@ class CustomReporter {
 
   /**
    * Called when an individual test case starts
-   * @param {Test} test - Test file information
-   * @param {TestCaseStartInfo} testCaseStartInfo - Test case details
    */
-  onTestCaseStart(test, testCaseStartInfo) {
+  onTestCaseStart(test: Test, testCaseStartInfo: any): void {
     if (this.verbose) {
       const testFileInfo = this.testFileEnvironments.get(test.path)
       const correctEnvironment = testFileInfo?.environment || 'unknown'
@@ -361,18 +453,14 @@ class CustomReporter {
 
   /**
    * Called when an individual test case completes
-   * @param {Test} test - Test file information
-   * @param {TestCaseResult} testCaseResult - Test case result
    */
-  onTestCaseResult(test, testCaseResult) {
+  onTestCaseResult(test: Test, testCaseResult: TestCaseResult): void {
     const status = testCaseResult.status
     const duration = testCaseResult.duration
     const emoji = this.getStatusEmoji(status)
     const testFullName = `${path.relative(process.cwd(), test.path)} > ${
       testCaseResult.fullName
     }`
-    const testRetryTimes = testCaseResult.invocations
-
     this.log(`  ${emoji} Test case completed: ${testCaseResult.title}`)
     this.log(`     Status: ${status.toUpperCase()}`)
     this.log(`     Duration: ${duration}ms`)
@@ -381,13 +469,18 @@ class CustomReporter {
     const retries = testCaseResult.retryReasons
       ? testCaseResult.retryReasons.length
       : 0
-    this.flakyTracker.recordTest(testFullName, status, duration, retries)
+    this.flakyTracker.recordTest(
+      testFullName,
+      status,
+      duration || 0,
+      retries || 0
+    )
 
     // Log additional details for failed tests
     if (status === 'failed') {
       this.log(`     ❌ Failure details:`, 'ERROR')
       testCaseResult.failureDetails?.forEach((failure, index) => {
-        this.log(`        ${index + 1}. ${failure.message}`, 'ERROR')
+        this.log(`        ${index + 1}. ${(failure as any).message}`, 'ERROR')
       })
 
       // Log failure messages
@@ -399,8 +492,9 @@ class CustomReporter {
       })
     }
 
-    if (testRetryTimes > 1) {
-      this.log(`     🔄 Retries: ${testRetryTimes}`, 'WARN')
+    const invocations = testCaseResult.invocations
+    if (invocations && invocations > 1) {
+      this.log(`     🔄 Retries: ${invocations}`, 'WARN')
       this.log(
         `     ⚠️  Test required multiple invocations - potential flakiness detected`,
         'WARN'
@@ -448,11 +542,12 @@ class CustomReporter {
 
   /**
    * Called when a test file completes
-   * @param {Test} test - Test file information
-   * @param {TestResult} testResult - Test file result
-   * @param {AggregatedResult} aggregatedResult - Current aggregated results
    */
-  onTestFileResult(test, testResult, _aggregatedResult) {
+  onTestFileResult(
+    test: Test,
+    testResult: TestResult,
+    _aggregatedResult: AggregatedResult
+  ): void {
     const relativePath = path.relative(process.cwd(), test.path)
     const { numPassingTests, numFailingTests, numPendingTests, numTodoTests } =
       testResult
@@ -500,11 +595,9 @@ class CustomReporter {
 
   /**
    * Called at the end of the entire test run
-   * @param {Set<Context>} contexts - Test contexts
-   * @param {AggregatedResult} results - Final aggregated results
    */
-  onRunComplete(contexts, results) {
-    const totalDuration = Date.now() - this.startTime
+  onRunComplete(contexts: Set<any>, results: AggregatedResult): void {
+    const totalDuration = Date.now() - (this.startTime || 0)
     const {
       numTotalTests,
       numPassedTests,
@@ -570,7 +663,7 @@ class CustomReporter {
       )
       this.log('─'.repeat(60))
 
-      flakyTests.forEach((flaky, index) => {
+      flakyTests.forEach((flaky: FlakyTestAnalysis, index: number) => {
         this.log(`${index + 1}. ${flaky.testName}`, 'WARN')
         this.log(
           `   📊 Failure Rate: ${flaky.failureRate}% (${flaky.failures}/${flaky.totalRuns} runs)`,
@@ -640,13 +733,15 @@ class CustomReporter {
 
         if (leakSummary.worstOffenders.length > 0) {
           this.log(`🏆 Worst Offenders:`, 'WARN')
-          leakSummary.worstOffenders.slice(0, 3).forEach((offender, index) => {
-            this.log(`   ${index + 1}. ${offender.test}`, 'WARN')
-            this.log(
-              `      Leaks: ${offender.leakCount}, Memory: ${offender.memoryImpact}MB`,
-              'WARN'
-            )
-          })
+          leakSummary.worstOffenders
+            .slice(0, 3)
+            .forEach((offender: any, index: number) => {
+              this.log(`   ${index + 1}. ${offender.test}`, 'WARN')
+              this.log(
+                `      Leaks: ${offender.leakCount}, Memory: ${offender.memoryImpact}MB`,
+                'WARN'
+              )
+            })
         }
 
         this.log('📋 Leak Prevention Actions:', 'WARN')
@@ -673,18 +768,14 @@ class CustomReporter {
     this.log(`📄 Full report saved to: ${this.logFile}`)
     this.log(`📈 Flaky test history saved to: ${this.flakyTracker.historyFile}`)
     if (this.leakDetector) {
-      this.log(
-        `💧 Leak detection log saved to: ${this.leakDetector.options.logFile}`
-      )
+      this.log(`💧 Leak detection log saved to: leak-detection.log`)
     }
   }
 
   /**
    * Get emoji for test status
-   * @param {string} status - Test status
-   * @returns {string} Appropriate emoji
    */
-  getStatusEmoji(status) {
+  private getStatusEmoji(status: string): string {
     switch (status) {
       case 'passed':
         return '✅'
@@ -702,4 +793,4 @@ class CustomReporter {
   }
 }
 
-module.exports = CustomReporter
+export = CustomReporter

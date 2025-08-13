@@ -7,7 +7,7 @@ describe('Leaky test simulation', () => {
 
   test('memory leak test - global variables', () => {
     // Create global variables (memory leak)
-    global.testData = new Array.from({ length: 1000000 }).fill('leak') // Large array
+    global.testData = Array.from({ length: 1000000 }).fill('leak') // Large array
     global.testCache = { data: 'this will leak' }
     global.testCounter = (global.testCounter || 0) + 1
 
@@ -84,7 +84,7 @@ describe('Leaky test simulation', () => {
 
   test('well-behaved test', () => {
     // This test properly cleans up after itself
-    const _localData = new Array.from({ length: 100 }).fill('temporary')
+    const _localData = Array.from({ length: 100 }).fill('temporary')
     const timeout = setTimeout(() => {}, 100)
 
     expect(add(7, 8)).toBe(15)
@@ -103,7 +103,7 @@ describe('Leaky test simulation', () => {
         id: `test-node-${i}`,
         children: [],
         parent: null,
-        data: new Array.from({ length: 1000 }).fill(`node-${i}-data`),
+        data: Array.from({ length: 1000 }).fill(`node-${i}-data`),
       }
       mockNodes.push(node)
     }
