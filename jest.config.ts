@@ -25,6 +25,7 @@ const config: Config = {
       },
     ],
     ['<rootDir>/lib/reporters/performance-reporter.ts', getConfig() as any],
+    '<rootDir>/lib/reporters/simple-with-export.ts',
   ],
   // Multi-project configuration for different environments and file types
   projects: [

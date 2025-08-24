@@ -6,23 +6,29 @@ Uses `@swc/jest` for fast TypeScript transpilation of tests and `tsx` for full T
 
 ## Features
 
-🔍 **Custom Jest Reporter**
+### 🔍 Custom Jest Reporter
 
 - Detailed test lifecycle logging
 - Multi-project environment support
 - Comprehensive test run analysis
 
-📊 **Flaky Test Detection**
+### 📊 Flaky Test Detection
 
 - Persistent test history tracking
 - Statistical analysis of test stability
 - Actionable recommendations for fixing flaky tests
 
-💧 **Memory Leak Detection**
+### 💧 Memory Leak Detection
 
 - Monitors memory usage, global variables, timers, and event listeners
 - Configurable thresholds and analysis
 - Heap snapshot generation for debugging
+
+### 🖨️ Collector & Exporter
+
+- Collects data during reporter events, exports a report in JSON or CSV formats
+- Can easily be extended for custom data collection
+- Standalone utility to easily output file reports from any reporter
 
 ## Quick Start
 
