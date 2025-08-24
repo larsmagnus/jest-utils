@@ -5,7 +5,7 @@
  * The actual configuration logic is handled by src/config/performance.ts
  */
 
-import { getPerformanceConfig } from './src/config/performance'
+import { getPerformanceConfig } from './lib/tools/performance/configuration'
 
 // Re-export the configuration function for Jest compatibility
 export function getConfig() {

@@ -1,7 +1,7 @@
 const config = {
   testEnvironment: 'node',
   // Test file patterns
-  testMatch: ['<rootDir>/**/*.test.ts', '<rootDir>/**/*.test.js'],
+  testMatch: ['<rootDir>/src/**/*.test.ts', '<rootDir>/src/**/*.test.js'],
   // Module resolution
   moduleNameMapper: {
     '^@/(.*)$': '<rootDir>/src/$1',
@@ -11,7 +11,7 @@ const config = {
     '^.+\\.(t|j)sx?$': '@swc/jest',
   },
   // Collect coverage from TypeScript files
-  collectCoverageFrom: ['src/**/*.ts', 'mixed/**/*.ts', '!src/**/*.d.ts'],
+  collectCoverageFrom: ['src/**/*.ts', 'src/mixed/**/*.ts', '!src/**/*.d.ts'],
 }
 
 export default config

@@ -1,5 +1,4 @@
 import type {
-  Reporter,
   Test,
   AggregatedResult,
   TestResult,
@@ -8,32 +7,35 @@ import type {
 } from '@jest/reporters'
 
 /**
+ * Barebones reporter implementation.
+ * Functionally equivalent to the default class-based approach.
+ *
  * @see https://github.com/facebook/jest/blob/master/packages/jest-reporters/src/types.ts
  * @see https://jestjs.io/docs/en/configuration#reporters-arraymodulename--modulename-options
  */
-export default class MyReporter implements Reporter {
+const myReporter = {
   onRunStart(
     results: AggregatedResult,
     options: ReporterOnStartOptions
   ): void | Promise<void> {
     console.log('onRunStart!', results, options)
-  }
+  },
   onTestStart(test: Test): void | Promise<void> {
     console.log('onTestStart!', test)
-  }
+  },
   onTestResult(
     test: Test,
     testResult: TestResult,
     aggregatedResult: AggregatedResult
   ): void | Promise<void> {
     console.log('onTestResult!', test, testResult, aggregatedResult)
-  }
+  },
   onRunComplete(
     contexts: Set<TestContext>,
     results: AggregatedResult
   ): void | Promise<void> {
     console.log('onRunComplete!', contexts, results)
-  }
+  },
   /**
    * Optionally, reporters can force Jest to exit with non zero code by returning
    * an `Error` from `getLastError()` method.
@@ -48,5 +50,7 @@ export default class MyReporter implements Reporter {
    */
   getLastError(): void | Error {
     console.log('last error!', 'error')
-  }
+  },
 }
+
+export default myReporter

@@ -24,8 +24,8 @@ This is a comprehensive Jest utilities project providing advanced test reporting
 
 - `client/` - Client-side code with jsdom test environment
 - `server/` - Server-side code with Node.js test environment
-- `src/` - Reusable utilities (leak detection, performance analysis etc.)
-- `src/reporters/` - Custom Jest reporters (custom reporter, performance reporter)
+- `lib/` - Reusable utilities (leak detection, performance analysis etc.)
+- `lib/reporters/` - Custom Jest reporters (custom reporter, performance reporter)
 - `docs/` - Documentation for utilities and features
 - `jest.config.ts` - Jest configuration with multi-project setup
 - `jest.config.memory.ts` - Configuration for memory leak detection
@@ -33,7 +33,7 @@ This is a comprehensive Jest utilities project providing advanced test reporting
 
 ### Custom Reporter
 
-- Location: `src/reporters/custom-reporter.js`
+- Location: `lib/reporters/custom-reporter.js`
 - Logs detailed information throughout the Jest test lifecycle
 - Outputs to both console and `test-report.log` file
 - Tracks test execution phases, timing, and results
@@ -74,7 +74,7 @@ This is a comprehensive Jest utilities project providing advanced test reporting
 
 ### Performance Reporter
 
-- Location: `src/reporters/performance-reporter.ts`
+- Location: `lib/reporters/performance-reporter.ts`
 - Provides comprehensive performance analysis with detailed timing metrics
 - **CPU Profiling**: V8-powered CPU profiling with flamegraph generation
 - **Memory Analysis**: Heap snapshots, memory usage tracking, and leak detection
@@ -88,7 +88,7 @@ This is a comprehensive Jest utilities project providing advanced test reporting
 
 ### Memory Leak Detection
 
-- **Location**: `src/leak-detector.ts`
+- **Location**: `lib/tools/memory/leak-detector.ts`
 - **Setup File**: `jest.setup.memory.ts` for automatic integration
 - **Config**: `jest.config.memory.ts` with environment-specific settings
 - **Documentation**: `docs/LEAK_DETECTION.md` for detailed usage guide
@@ -98,7 +98,7 @@ This is a comprehensive Jest utilities project providing advanced test reporting
 
 ### Performance Analysis
 
-- **Location**: `src/reporters/performance-reporter.ts` and `src/performance-analysis.ts`
+- **Location**: `lib/reporters/performance-reporter.ts` and `lib/tools/performance/performance-analysis.ts`
 - **Config**: `jest.config.performance.ts` with environment-specific profiles
 - **Documentation**: `docs/PERFORMANCE_ANALYSIS.md` for comprehensive usage guide
 - **Features**: CPU profiling, memory analysis, flamegraph generation, performance trends

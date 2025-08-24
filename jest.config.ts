@@ -13,7 +13,7 @@ const config: Config = {
   reporters: [
     'default', // Keep the default reporter
     [
-      '<rootDir>/src/reporters/flake-reporter.ts',
+      '<rootDir>/lib/reporters/memory-reporter.ts',
       {
         logFile: 'test-report.log',
         enableLeakDetection: true,
@@ -24,7 +24,7 @@ const config: Config = {
         },
       },
     ],
-    ['<rootDir>/src/reporters/performance-reporter.ts', getConfig() as any],
+    ['<rootDir>/lib/reporters/performance-reporter.ts', getConfig() as any],
   ],
   // Multi-project configuration for different environments and file types
   projects: [
@@ -34,12 +34,12 @@ const config: Config = {
         '^.+\\.(t|j)sx?$': '@swc/jest',
       },
       testMatch: [
-        '<rootDir>/client/**/*.test.js',
-        '<rootDir>/client/**/*.test.ts',
-        '<rootDir>/mixed/**/*.client.test.js',
-        '<rootDir>/mixed/**/*.client.test.ts',
-        '<rootDir>/mixed/**/*.test.js',
-        '<rootDir>/mixed/**/*.test.ts',
+        '<rootDir>/src/client/**/*.test.js',
+        '<rootDir>/src/client/**/*.test.ts',
+        '<rootDir>/src/mixed/**/*.client.test.js',
+        '<rootDir>/src/mixed/**/*.client.test.ts',
+        '<rootDir>/src/mixed/**/*.test.js',
+        '<rootDir>/src/mixed/**/*.test.ts',
         '!**/*.server.test.js',
         '!**/*.server.test.ts',
       ],
@@ -51,12 +51,12 @@ const config: Config = {
         '^.+\\.(t|j)sx?$': '@swc/jest',
       },
       testMatch: [
-        '<rootDir>/server/**/*.test.js',
-        '<rootDir>/server/**/*.test.ts',
-        '<rootDir>/mixed/**/*.server.test.js',
-        '<rootDir>/mixed/**/*.server.test.ts',
-        '<rootDir>/mixed/**/*.test.js',
-        '<rootDir>/mixed/**/*.test.ts',
+        '<rootDir>/src/server/**/*.test.js',
+        '<rootDir>/src/server/**/*.test.ts',
+        '<rootDir>/src/mixed/**/*.server.test.js',
+        '<rootDir>/src/mixed/**/*.server.test.ts',
+        '<rootDir>/src/mixed/**/*.test.js',
+        '<rootDir>/src/mixed/**/*.test.ts',
         '!**/*.client.test.js',
         '!**/*.client.test.ts',
       ],

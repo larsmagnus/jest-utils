@@ -5,7 +5,7 @@
  * The actual configuration logic is handled by src/config/leak-detection.ts
  */
 
-import { getLeakDetectionConfig } from './src/config/leak-detection'
+import { getLeakDetectionConfig } from './lib/tools/memory/configuration'
 
 // Re-export the configuration function for Jest compatibility
 export function getConfig() {

@@ -19,7 +19,6 @@
  *
  * @see https://jestjs.io/docs/configuration#reporters
  */
-
 import * as fs from 'fs'
 import * as path from 'path'
 import type {
@@ -29,8 +28,8 @@ import type {
   TestResult,
   TestCaseResult,
 } from '@jest/reporters'
-import { LeakDetector } from '../leak-detector'
-import { getLeakDetectionConfig } from '../config/leak-detection'
+import { LeakDetector } from '../tools/memory/leak-detector'
+import { getLeakDetectionConfig } from '../tools/memory/configuration'
 
 interface CustomReporterOptions {
   logFile?: string

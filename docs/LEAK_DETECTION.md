@@ -35,7 +35,7 @@ Add to your `jest.config.ts`:
 
 ```javascript
 export default {
-  setupFilesAfterEnv: ['<rootDir>/jest.setup.memory.ts'],
+  setupFilesAfterEnv: ['<rootDir>/src/jest.setup.memory.ts'],
   // ... other config
 }
 ```
@@ -49,7 +49,7 @@ export default {
   reporters: [
     'default',
     [
-      '<rootDir>/src/reporters/flake-reporter.ts',
+      '<rootDir>/src/lib/reporters/memory-reporter.ts',
       {
         enableLeakDetection: true,
         leakDetection: {
@@ -66,7 +66,7 @@ export default {
 ### Option 3: Manual Integration
 
 ```javascript
-const LeakDetector = require('./src/leak-detector.ts')
+const LeakDetector = require('./lib/tools/memory/leak-detector.ts')
 
 describe('My Test Suite', () => {
   const leakDetector = new LeakDetector()

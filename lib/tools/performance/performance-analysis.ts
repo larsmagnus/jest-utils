@@ -33,7 +33,7 @@ import { execSync, spawn } from 'child_process'
 import * as fs from 'fs'
 import * as path from 'path'
 import * as os from 'os'
-import { getPerformanceConfig } from './config/performance'
+import { getPerformanceConfig } from './configuration'
 
 interface PerformanceOptions {
   cpuOnly: boolean

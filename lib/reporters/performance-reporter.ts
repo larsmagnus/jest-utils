@@ -20,7 +20,6 @@
  * @see https://nodejs.org/api/perf_hooks.html
  * @see https://nodejs.org/api/v8.html
  */
-
 import * as fs from 'fs'
 import * as path from 'path'
 import { PerformanceObserver } from 'perf_hooks'
@@ -34,7 +33,7 @@ import type {
 import {
   getPerformanceConfig,
   type PerformanceConfig,
-} from '../config/performance'
+} from '../tools/performance/configuration'
 
 interface PerformanceReporterOptions {
   outputDir?: string
