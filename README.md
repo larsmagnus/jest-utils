@@ -1,6 +1,8 @@
 # Jest Utils
 
-A comprehensive collection of Jest utilities for advanced test reporting, flaky test detection, and memory leak detection.
+A collection of Jest utilities for advanced test reporting, flaky test detection, and memory leak detection.
+
+Uses `@swc/jest` for fast TypeScript transpilation of tests and `tsx` for full TypeScript support test configuration, reporters and utilities.
 
 ## Features
 
@@ -89,7 +91,3 @@ This project uses:
 - **Package Manager**: pnpm (locked to version 10.12.4)
 - **Test Environment**: Jest with multi-project configuration
 - **Node.js**: Compatible with modern Node.js versions
-
-## License
-
-ISC
