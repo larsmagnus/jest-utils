@@ -1,4 +1,4 @@
-const { capitalize, isEven } = require('./utils')
+import { capitalize, isEven } from './utils'
 
 describe('Utility functions', () => {
   test('capitalize function', () => {

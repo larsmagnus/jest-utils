@@ -34,7 +34,7 @@ This project includes comprehensive memory leak detection utilities to help iden
 Add to your `jest.config.ts`:
 
 ```javascript
-module.exports = {
+export default {
   setupFilesAfterEnv: ['<rootDir>/jest.setup.memory.ts'],
   // ... other config
 }
@@ -45,7 +45,7 @@ module.exports = {
 Configure in Jest reporter options:
 
 ```javascript
-module.exports = {
+export default {
   reporters: [
     'default',
     [
@@ -112,7 +112,7 @@ NODE_ENV=development|ci|production
 Use `jest.config.memory.ts` for detailed configuration:
 
 ```javascript
-module.exports = {
+export default {
   development: {
     memoryThresholdMB: 50,
     heapGrowthThreshold: 0.25,

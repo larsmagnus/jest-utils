@@ -1,4 +1,4 @@
-const { filterArray, sortNumbers } = require('./data')
+import { filterArray, sortNumbers } from './data'
 
 describe('Data processing functions', () => {
   test('filterArray function', () => {

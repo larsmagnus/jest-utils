@@ -1,4 +1,4 @@
-const { add } = require('./math')
+import { add } from './math'
 
 describe('Simple leak test', () => {
   test('global variable leak', () => {

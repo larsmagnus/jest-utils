@@ -1,4 +1,12 @@
-const { add } = require('./math')
+import { add } from './math'
+
+declare global {
+  var testData: any
+  var testCache: any
+  var testCounter: number
+  var pendingPromises: Promise<any>[]
+  var testNodes: any[]
+}
 
 describe('Leaky test simulation', () => {
   // Global variables that will leak

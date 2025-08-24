@@ -16,24 +16,36 @@ export default class MyReporter implements Reporter {
     results: AggregatedResult,
     options: ReporterOnStartOptions
   ): void | Promise<void> {
-    console.log('onRunStart!')
+    console.log('onRunStart!', results, options)
   }
   onTestStart(test: Test): void | Promise<void> {
-    console.log('onTestStart!')
+    console.log('onTestStart!', test)
   }
   onTestResult(
     test: Test,
     testResult: TestResult,
     aggregatedResult: AggregatedResult
   ): void | Promise<void> {
-    console.log('onTestResult!')
+    console.log('onTestResult!', test, testResult, aggregatedResult)
   }
   onRunComplete(
     contexts: Set<TestContext>,
     results: AggregatedResult
   ): void | Promise<void> {
-    console.log('onRunComplete!')
+    console.log('onRunComplete!', contexts, results)
   }
+  /**
+   * Optionally, reporters can force Jest to exit with non zero code by returning
+   * an `Error` from `getLastError()` method.
+   *
+   * @example usage
+   *
+   * ```ts
+   * if (this._shouldFail) {
+   *    return new Error('Custom error reported!');
+   * }
+   * ```
+   */
   getLastError(): void | Error {
     console.log('last error!', 'error')
   }

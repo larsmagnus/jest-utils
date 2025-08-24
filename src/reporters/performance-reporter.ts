@@ -25,8 +25,12 @@ import * as fs from 'fs'
 import * as path from 'path'
 import { PerformanceObserver } from 'perf_hooks'
 import * as v8 from 'v8'
-import { Config } from '@jest/types'
-import { AggregatedResult, TestResult, Test } from '@jest/test-result'
+import type {
+  Config,
+  Test,
+  AggregatedResult,
+  TestResult,
+} from '@jest/reporters'
 import {
   getPerformanceConfig,
   type PerformanceConfig,
@@ -82,7 +86,7 @@ interface PerformanceData {
   recommendations: string[]
 }
 
-class PerformanceReporter {
+export default class PerformanceReporter {
   private globalConfig: Config.GlobalConfig
   private options: PerformanceReporterOptions
   private config: PerformanceConfig
@@ -413,6 +417,10 @@ class PerformanceReporter {
         }
         fs.symlinkSync(path.basename(reportPath), latestPath)
       } catch (_linkError) {
+        console.warn(
+          'Warning: Could not create symlink for latest report:',
+          _linkError
+        )
         // Fallback: copy file if symlink fails
         fs.copyFileSync(reportPath, latestPath)
       }
@@ -539,5 +547,3 @@ class PerformanceReporter {
     this.memorySnapshots.clear()
   }
 }
-
-export = PerformanceReporter

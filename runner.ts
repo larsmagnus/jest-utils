@@ -4,5 +4,5 @@
  *
  * @example Usage: `tsx runner.ts`
  */
-declare module "jest/bin/jest";
-import("jest/bin/jest");
+declare module 'jest/bin/jest'
+import('jest/bin/jest')

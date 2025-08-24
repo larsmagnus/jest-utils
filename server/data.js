@@ -1,9 +1,7 @@
-function filterArray(arr, predicate) {
+export function filterArray(arr, predicate) {
   return arr.filter(predicate)
 }
 
-function sortNumbers(arr) {
+export function sortNumbers(arr) {
   return [...arr].sort((a, b) => a - b)
 }
-
-module.exports = { filterArray, sortNumbers }

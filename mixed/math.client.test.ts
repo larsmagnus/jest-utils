@@ -1,4 +1,4 @@
-const { add, multiply } = require('./math')
+import { add, multiply } from './math'
 
 describe('Math utilities', () => {
   test('add function', () => {

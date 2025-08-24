@@ -1,4 +1,4 @@
-const { add } = require('./math')
+import { add } from './math'
 
 jest.retryTimes(3)
 

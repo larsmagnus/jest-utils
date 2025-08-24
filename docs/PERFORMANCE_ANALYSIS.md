@@ -76,7 +76,7 @@ node src/performance-analysis.ts --pattern="auth.*test.js"
 The performance reporter is configured via `jest.config.performance.ts`:
 
 ```javascript
-module.exports = {
+export default {
   output: {
     outputDir: 'reports/performance-reports',
     htmlReport: true,

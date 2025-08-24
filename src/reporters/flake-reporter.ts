@@ -22,13 +22,13 @@
 
 import * as fs from 'fs'
 import * as path from 'path'
-import { Config } from '@jest/types'
-import {
+import type {
+  Config,
+  Test,
   AggregatedResult,
   TestResult,
-  Test,
   TestCaseResult,
-} from '@jest/test-result'
+} from '@jest/reporters'
 import { LeakDetector } from '../leak-detector'
 import { getLeakDetectionConfig } from '../config/leak-detection'
 
@@ -105,7 +105,7 @@ interface TestResultSummary {
   todo: number
 }
 
-class CustomReporter {
+export default class CustomReporter {
   private globalConfig: Config.GlobalConfig
   private options: CustomReporterOptions
   private startTime: number | null = null
@@ -792,5 +792,3 @@ class CustomReporter {
     }
   }
 }
-
-export = CustomReporter
