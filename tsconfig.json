@@ -1,40 +1,15 @@
 {
   "compilerOptions": {
-    "target": "ES2022",
-    "downlevelIteration": true,
-    "module": "CommonJS",
-    "lib": ["ES2022", "DOM"],
-    "outDir": "./dist",
-    "rootDir": ".",
-    "strict": true,
+    "target": "esnext",
+    "module": "esnext",
+    "moduleResolution": "bundler",
+    "allowSyntheticDefaultImports": true,
     "esModuleInterop": true,
     "skipLibCheck": true,
-    "forceConsistentCasingInFileNames": true,
-    "moduleResolution": "node",
-    "allowSyntheticDefaultImports": true,
-    "resolveJsonModule": true,
-    "declaration": true,
-    "declarationMap": true,
-    "sourceMap": true,
+    "strict": true,
     "types": ["jest", "node"],
-    "baseUrl": ".",
-    "paths": {
-      "@/*": ["src/*"],
-      "@/reporters/*": ["src/reporters/*"]
-    }
+    "resolveJsonModule": true
   },
-  "include": [
-    "src/**/*",
-    "jest.config.ts",
-    "jest.config.memory.ts",
-    "jest.config.performance.ts",
-    "jest.setup.memory.ts",
-    "**/*.test.ts",
-    "**/*.test.js"
-  ],
-  "exclude": ["node_modules", "dist", "reports"],
-  "ts-node": {
-    "esm": false,
-    "experimentalSpecifierResolution": "node"
-  }
+  "include": ["**/*.ts", "**/*.tsx"],
+  "exclude": ["node_modules", "dist", "reports", "docs"]
 }
